@@ -37,6 +37,7 @@ function ListAccessBackend(){
   // </gerer la redirection vers la page de connexion si le token n'existe pas>
   
   const handleActiverAccessBackend = (accessBackend) => {
+    console.log("acces backen => "+ JSON.stringify(accessBackend));
     updateAccessBackEndPartiel(accessBackend).then((resp) =>{
 
       const newAccessBackends = stateAccessBackEnd.map((f) => {
