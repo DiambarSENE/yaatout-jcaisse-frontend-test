@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate  } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import {updateType, getTypeById, getTypes} from '../../../servicesApi/microservice-parametre';
 import {ValidationName} from '../../../validateur/validation';
 
@@ -74,10 +74,8 @@ function EditType({id}) {
             <>
             {/* <Header/>
             <SideNav /> */}
-             <button onClick={handleShow} className="btn btn-outline-primary">
-                <FontAwesomeIcon icon={faEdit}>
-                </FontAwesomeIcon>
-             </button>
+            <Link onClick={handleShow} className="dropdown-item text-muted">Modifier</Link>
+   
 
              <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

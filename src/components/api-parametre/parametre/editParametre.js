@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate  } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import {updateParametre, getParametreById, getTypes, getParametres, getParametreByIdType} from '../../../servicesApi/microservice-parametre';
 import {  faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -110,10 +110,8 @@ function EditParametre({id}) {
             <>
             {/* <Header />
             <SideNav /> */}
-              <button onClick={handleShow} className="btn btn-outline-primary">
-                <FontAwesomeIcon icon={faEdit}>
-                </FontAwesomeIcon>
-             </button>
+           <Link onClick={handleShow} className="dropdown-item text-muted">Modifier</Link>
+            
 
              <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

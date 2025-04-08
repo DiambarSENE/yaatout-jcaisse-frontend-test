@@ -564,7 +564,7 @@ import { AppContextToken, AppContextUserByEmail, useAuth } from '../../useContex
                   </div>
                 </div>
                 <ul className="navbar-nav header-right">
-                  <li className="nav-item d-flex align-items-center">
+                  {/* <li className="nav-item d-flex align-items-center">
                     <div className="input-group search-area">
                       <input type="text" className="form-control" placeholder="Search here..." />
                       <span className="input-group-text"><a href="javascript:void(0)"><i className="flaticon-381-search-2" /></a></span>
@@ -731,7 +731,7 @@ import { AppContextToken, AppContextUserByEmail, useAuth } from '../../useContex
                         </ul>
                       </div>
                     </div>
-                  </li>
+                  </li> */}
                   <li className="nav-item dropdown  header-profile">
                     <a className="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
                       <img src="images/user.jpg" width={56} alt="image" />

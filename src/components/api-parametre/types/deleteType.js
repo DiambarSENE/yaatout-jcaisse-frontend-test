@@ -8,6 +8,7 @@ import Header from '../../templates/header';
 import Footer from '../../templates/Footer';
 import SideNav from '../../templates/SideNav';
 import { AppContext } from '../../../useContext/context';
+import { Link } from 'react-router-dom';
 
 function DeleteType({id}) {
       //const navigate = useNavigate();
@@ -56,10 +57,12 @@ function DeleteType({id}) {
             <>
             {/* <Header />
             <SideNav/> */}
-             <button onClick={handleShow} className="btn btn-outline-danger">
+             {/* <button onClick={handleShow} className="btn btn-outline-danger">
                 <FontAwesomeIcon icon={faTrash}>
                 </FontAwesomeIcon>
-             </button>
+             </button> */}
+              <Link onClick={handleShow} className="dropdown-item text-danger">Supprimer</Link>
+             
 
              <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

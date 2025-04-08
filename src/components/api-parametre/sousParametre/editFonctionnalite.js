@@ -7,6 +7,7 @@ import { Modal } from 'react-bootstrap';
 import { AppContextIdUserByToken } from '../../../useContext/contextStateUser';
 import { AppContextParam, AppContextSousParametre } from '../../../useContext/context';
 import { getAllSousParametres, getSousParametreById, updateSousParametre } from '../../../servicesApi/microservice-parametre';
+import { Link } from 'react-router-dom';
 
 
 function EditSousParametre({id}) {
@@ -71,10 +72,8 @@ function EditSousParametre({id}) {
             <>
             {/* <Header/>
             <SideNav /> */}
-             <button onClick={handleShow} className="btn btn-outline-primary">
-                <FontAwesomeIcon icon={faEdit}>
-                </FontAwesomeIcon>
-             </button>
+           <Link onClick={handleShow} className="dropdown-item text-muted">Modifier</Link>
+            
 
              <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

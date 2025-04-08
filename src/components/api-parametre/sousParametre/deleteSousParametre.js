@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal';
 import { AppContextSousParametre } from '../../../useContext/context';
 import { deleteSousParametre, getSousParametreById } from '../../../servicesApi/microservice-parametre';
+import { Link } from 'react-router-dom';
 
 function DeleteSousParametre({id}) {
       //const navigate = useNavigate();
@@ -49,10 +50,8 @@ function DeleteSousParametre({id}) {
             <>
             {/* <Header />
             <SideNav/> */}
-             <button onClick={handleShow} className="btn btn-outline-danger">
-                <FontAwesomeIcon icon={faTrash}>
-                </FontAwesomeIcon>
-             </button>
+            <Link onClick={handleShow} className="dropdown-item text-danger">Supprimer</Link>
+            
 
              <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

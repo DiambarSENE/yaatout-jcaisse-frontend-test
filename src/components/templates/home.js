@@ -43,7 +43,142 @@ function Home() {
                             </div>
                           </div>
                         </div>
-                        {/* <div className="col-xl-12">
+                        {/*=============================================*/}
+                        <div className="col-xl-12">
+                          <div className="row">
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4 pb-0 justify-content-between">
+                                  <div>
+                                    <h4 className="fs-18 font-w600 mb-4 text-nowrap">Total Clients</h4>
+                                    <div className="d-flex align-items-center">
+                                      <h2 className="fs-32 font-w700 mb-0">68</h2>
+                                      <span className="d-block ms-4">
+                                        <svg width={21} height={11} viewBox="0 0 21 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M1.49217 11C0.590508 11 0.149368 9.9006 0.800944 9.27736L9.80878 0.66117C10.1954 0.29136 10.8046 0.291359 11.1912 0.661169L20.1991 9.27736C20.8506 9.9006 20.4095 11 19.5078 11H1.49217Z" fill="#09BD3C" />
+                                        </svg>
+                                        <small className="d-block fs-16 font-w400 text-success">+0,5%</small>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div id="columnChart" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body px-4 pb-0">
+                                  <h4 className="fs-18 font-w600 mb-5 text-nowrap">Total Clients</h4>
+                                  <div className="progress default-progress">
+                                    <div className="progress-bar bg-gradient1 progress-animated" style={{width: '40%', height: 10}} role="progressbar">
+                                      <span className="sr-only">45% Complete</span>
+                                    </div>
+                                  </div>
+                                  <div className="d-flex align-items-end mt-2 pb-3 justify-content-between">
+                                    <span>76 left from target</span>
+                                    <h4 className="mb-0">42</h4>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4  justify-content-between">
+                                  <div>
+                                    <div className>
+                                      <h2 className="fs-32 font-w700">562</h2>
+                                      <span className="fs-18 font-w500 d-block">Total Clients</span>
+                                      <span className="d-block fs-16 font-w400"><small className="text-danger">-2%</small> than last month</span>
+                                    </div>
+                                  </div>
+                                  <div id="NewCustomers" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4  justify-content-between">
+                                  <div>
+                                    <div className>
+                                      <h2 className="fs-32 font-w700">892</h2>
+                                      <span className="fs-18 font-w500 d-block">New Projects</span>
+                                      <span className="d-block fs-16 font-w400"><small className="text-success">-2%</small> than last month</span>
+                                    </div>
+                                  </div>
+                                  <div id="NewCustomers1" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-xl-12">
+                          <div className="row">
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4 pb-0 justify-content-between">
+                                  <div>
+                                    <h4 className="fs-18 font-w600 mb-4 text-nowrap">Total Clients</h4>
+                                    <div className="d-flex align-items-center">
+                                      <h2 className="fs-32 font-w700 mb-0">68</h2>
+                                      <span className="d-block ms-4">
+                                        <svg width={21} height={11} viewBox="0 0 21 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M1.49217 11C0.590508 11 0.149368 9.9006 0.800944 9.27736L9.80878 0.66117C10.1954 0.29136 10.8046 0.291359 11.1912 0.661169L20.1991 9.27736C20.8506 9.9006 20.4095 11 19.5078 11H1.49217Z" fill="#09BD3C" />
+                                        </svg>
+                                        <small className="d-block fs-16 font-w400 text-success">+0,5%</small>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div id="columnChart" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body px-4 pb-0">
+                                  <h4 className="fs-18 font-w600 mb-5 text-nowrap">Total Clients</h4>
+                                  <div className="progress default-progress">
+                                    <div className="progress-bar bg-gradient1 progress-animated" style={{width: '40%', height: 10}} role="progressbar">
+                                      <span className="sr-only">45% Complete</span>
+                                    </div>
+                                  </div>
+                                  <div className="d-flex align-items-end mt-2 pb-3 justify-content-between">
+                                    <span>76 left from target</span>
+                                    <h4 className="mb-0">42</h4>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4  justify-content-between">
+                                  <div>
+                                    <div className>
+                                      <h2 className="fs-32 font-w700">562</h2>
+                                      <span className="fs-18 font-w500 d-block">Total Clients</span>
+                                      <span className="d-block fs-16 font-w400"><small className="text-danger">-2%</small> than last month</span>
+                                    </div>
+                                  </div>
+                                  <div id="NewCustomers" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4  justify-content-between">
+                                  <div>
+                                    <div className>
+                                      <h2 className="fs-32 font-w700">892</h2>
+                                      <span className="fs-18 font-w500 d-block">New Projects</span>
+                                      <span className="d-block fs-16 font-w400"><small className="text-success">-2%</small> than last month</span>
+                                    </div>
+                                  </div>
+                                  <div id="NewCustomers1" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {/*  <div className="col-xl-12">
                           <div className="card">
                             <div className="card-header border-0 flex-wrap">
                               <h4 className="fs-20 font-w700 mb-2">Project Statistics</h4>
@@ -318,35 +453,144 @@ function Home() {
                             </div>
                           </div>
                         </div>
-                        {/* <div className="col-xl-12">
-                          <div className="card">
-                            <div className="card-body">
-                              <div className="row">
-                                <div className="col-xl-6 col-sm-6">
-                                  <div className=" owl-carousel card-slider">
-                                    <div className="items">
-                                      <h4 className="fs-20 font-w700 mb-4">Fillow Company Profile Website Project</h4>
-                                      <span className="fs-14 font-w400">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque </span>
-                                    </div>	
-                                    <div className="items">
-                                      <h4 className="fs-20 font-w700 mb-4">Fillow Company Profile Website Project</h4>
-                                      <span className="fs-14 font-w400">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque </span>
-                                    </div>	
-                                    <div className="items">
-                                      <h4 className="fs-20 font-w700 mb-4">Fillow Company Profile Website Project</h4>
-                                      <span className="fs-14 font-w400">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque </span>
-                                    </div>	
+
+
+                         <div className="col-xl-12">
+                          <div className="row">
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4 pb-0 justify-content-between">
+                                  <div>
+                                    <h4 className="fs-18 font-w600 mb-4 text-nowrap">Total Clients</h4>
+                                    <div className="d-flex align-items-center">
+                                      <h2 className="fs-32 font-w700 mb-0">68</h2>
+                                      <span className="d-block ms-4">
+                                        <svg width={21} height={11} viewBox="0 0 21 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M1.49217 11C0.590508 11 0.149368 9.9006 0.800944 9.27736L9.80878 0.66117C10.1954 0.29136 10.8046 0.291359 11.1912 0.661169L20.1991 9.27736C20.8506 9.9006 20.4095 11 19.5078 11H1.49217Z" fill="#09BD3C" />
+                                        </svg>
+                                        <small className="d-block fs-16 font-w400 text-success">+0,5%</small>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div id="columnChart" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body px-4 pb-0">
+                                  <h4 className="fs-18 font-w600 mb-5 text-nowrap">Total Clients</h4>
+                                  <div className="progress default-progress">
+                                    <div className="progress-bar bg-gradient1 progress-animated" style={{width: '40%', height: 10}} role="progressbar">
+                                      <span className="sr-only">45% Complete</span>
+                                    </div>
+                                  </div>
+                                  <div className="d-flex align-items-end mt-2 pb-3 justify-content-between">
+                                    <span>76 left from target</span>
+                                    <h4 className="mb-0">42</h4>
                                   </div>
                                 </div>
-                                <div className="col-xl-6 redial col-sm-6">
-                                  <div id="redial" />
-                                  <span className="text-center d-block fs-18 font-w600">On Progress <small className="text-success">70%</small></span>	
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4  justify-content-between">
+                                  <div>
+                                    <div className>
+                                      <h2 className="fs-32 font-w700">562</h2>
+                                      <span className="fs-18 font-w500 d-block">Total Clients</span>
+                                      <span className="d-block fs-16 font-w400"><small className="text-danger">-2%</small> than last month</span>
+                                    </div>
+                                  </div>
+                                  <div id="NewCustomers" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4  justify-content-between">
+                                  <div>
+                                    <div className>
+                                      <h2 className="fs-32 font-w700">892</h2>
+                                      <span className="fs-18 font-w500 d-block">New Projects</span>
+                                      <span className="d-block fs-16 font-w400"><small className="text-success">-2%</small> than last month</span>
+                                    </div>
+                                  </div>
+                                  <div id="NewCustomers1" />
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div className="col-xl-12 col-lg-12">
+
+                        <div className="col-xl-12">
+                          <div className="row">
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4 pb-0 justify-content-between">
+                                  <div>
+                                    <h4 className="fs-18 font-w600 mb-4 text-nowrap">Total Clients</h4>
+                                    <div className="d-flex align-items-center">
+                                      <h2 className="fs-32 font-w700 mb-0">68</h2>
+                                      <span className="d-block ms-4">
+                                        <svg width={21} height={11} viewBox="0 0 21 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M1.49217 11C0.590508 11 0.149368 9.9006 0.800944 9.27736L9.80878 0.66117C10.1954 0.29136 10.8046 0.291359 11.1912 0.661169L20.1991 9.27736C20.8506 9.9006 20.4095 11 19.5078 11H1.49217Z" fill="#09BD3C" />
+                                        </svg>
+                                        <small className="d-block fs-16 font-w400 text-success">+0,5%</small>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div id="columnChart" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body px-4 pb-0">
+                                  <h4 className="fs-18 font-w600 mb-5 text-nowrap">Total Clients</h4>
+                                  <div className="progress default-progress">
+                                    <div className="progress-bar bg-gradient1 progress-animated" style={{width: '40%', height: 10}} role="progressbar">
+                                      <span className="sr-only">45% Complete</span>
+                                    </div>
+                                  </div>
+                                  <div className="d-flex align-items-end mt-2 pb-3 justify-content-between">
+                                    <span>76 left from target</span>
+                                    <h4 className="mb-0">42</h4>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4  justify-content-between">
+                                  <div>
+                                    <div className>
+                                      <h2 className="fs-32 font-w700">562</h2>
+                                      <span className="fs-18 font-w500 d-block">Total Clients</span>
+                                      <span className="d-block fs-16 font-w400"><small className="text-danger">-2%</small> than last month</span>
+                                    </div>
+                                  </div>
+                                  <div id="NewCustomers" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-xl-6 col-sm-6">
+                              <div className="card">
+                                <div className="card-body d-flex px-4  justify-content-between">
+                                  <div>
+                                    <div className>
+                                      <h2 className="fs-32 font-w700">892</h2>
+                                      <span className="fs-18 font-w500 d-block">New Projects</span>
+                                      <span className="d-block fs-16 font-w400"><small className="text-success">-2%</small> than last month</span>
+                                    </div>
+                                  </div>
+                                  <div id="NewCustomers1" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                         {/*<div className="col-xl-12 col-lg-12">
                           <div className="row">
                             <div className="col-xl-6 col-xxl-12 col-sm-6">
                               <div className="card">
@@ -515,7 +759,7 @@ function Home() {
                             </div>
                           </div>	
                         </div>
-                        <div className="col-xl-12 col-lg-12">
+                       <div className="col-xl-12 col-lg-12">
                           <div className="card">
                             <div className="card-header border-0">
                               <div>
