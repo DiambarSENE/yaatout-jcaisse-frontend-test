@@ -1,25 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {  faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal';
 
 import { Link } from 'react-router-dom';
-import { AppContextIdUserByToken, AppContextUtilisateur, useUsers } from '../../../useContext/contextStateUser';
-import { getUserById, getUsers, updateUser, getIdInLocalStorage } from '../../../servicesApi/microservice-utilisateur';
+import { AppContextAccessBackEnd,  useUsers } from '../../../useContext/contextStateUser';
+import { getUserById, updateUser, getIdInLocalStorage } from '../../../servicesApi/microservice-utilisateur';
 import { ValidationEmail, ValidationName, ValidationPrenom, ValidationTelephone } from '../../../validateur/validation';
 
 function EditerUser({userId}) {
       const idInLocalStorage = getIdInLocalStorage();
-      //const navigate = useNavigate();
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
 
-      //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
-      const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);
-      //const { stateUtilisateur, setStateUtilisateur  } = useContext(AppContextUtilisateur);
-      const { users, setUsers } = useUsers(); // ✅ Récupérer la liste des utilisateurs
-      
+      const {  setUsers } = useUsers(); // ✅ Récupérer la liste des utilisateurs
+      // ✅ Récupérer la liste des acces backend
+      const { stateAccessBackEnd } = useContext(AppContextAccessBackEnd);
 
       const [nom, setNom] = useState("");
       const [prenom, setPrenom] = useState("");
@@ -31,6 +26,9 @@ function EditerUser({userId}) {
       const [adresse, setAdresse] = useState("");
       const idUser = idInLocalStorage;;
       const [updateBy, setUpdateBy] = useState(idUser);
+      const [ accessBackEndDto, setAccessBackEndDto] = useState({ });
+      //permet d'ouvrir et fermer
+      const [toggleIndex, setToggleIndex] = useState(null);
 
       const [errorPrenom, setErrorPrenom] = useState("");
       const [errorNom, setErrorNom] = useState("");
@@ -52,8 +50,13 @@ function EditerUser({userId}) {
                  setMatricule(user.matricule);
                  setEmail(user.email);
                  setActiver(user.activer);
-                 setAdresse(user.adresse)
+                 setAdresse(user.adresse);
+                 setAccessBackEndDto(user.accessBackEndDto)
             });
+      };
+
+      const handleAccesChange = (accesId) => {
+        setAccessBackEndDto({ id: accesId });
       };
 
       const handleUpdateUser = (e) => {
@@ -73,10 +76,10 @@ function EditerUser({userId}) {
               return;
           }
           
-          const id = userId;
-          const updateBy = stateIdUserFromToken;
+           const id = userId;
+          // const updateBy = stateIdUserFromToken;
            // Création de l'objet utilisateur
-          let user = {id, prenom, nom, telephone, matricule, email, activer,adresse, updateBy };
+          let user = {id, prenom, nom, telephone, matricule, email, activer,adresse,accessBackEndDto, updateBy };
 
         // Envoi de l'utilisateur si tout est valide
           updateUser(user).then(resp =>{
@@ -109,7 +112,7 @@ function EditerUser({userId}) {
 
              <Link onClick={handleShow} className="dropdown-item text-muted" >Modifier</Link>
 
-             <Modal show={show} onHide={handleClose}>
+             <Modal show={show} onHide={handleClose} size='lg'>
                 <Modal.Header closeButton>
                   <Modal.Title>Modification d'un utilisateur</Modal.Title>
                 </Modal.Header>
@@ -173,7 +176,74 @@ function EditerUser({userId}) {
                               Activer
                             </label>
                           </div>  
-                      
+                        </div>
+                        <div className="col-lg-12">
+                            <div className="mb-3">
+                                <label className="form-label">Accès backend</label>
+                                {stateAccessBackEnd && stateAccessBackEnd.length > 0 ? (
+                                    <ul style={{ paddingLeft: '20px' }}>
+                                        {stateAccessBackEnd.map((acces, index) => (
+                                            <div
+                                                key={acces.id} // Mieux d'utiliser un identifiant unique plutôt que l'index
+                                                style={{
+                                                    marginBottom: '1rem',
+                                                    padding: '0.5rem',
+                                                    borderLeft: '3px solid #007bff',
+                                                    backgroundColor: '#f9f9f9',
+                                                }}
+                                            >
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        cursor: 'pointer',
+                                                        alignItems: 'center',
+                                                    }}
+                                                    onClick={() => setToggleIndex(toggleIndex === index ? null : index)}
+                                                >
+                                                    <strong>{acces.id || 'Sans identifiant'}</strong>
+                                                    <span>{toggleIndex === index ? '▲' : '▼'}</span>
+                                                </div>
+                        
+                                                {toggleIndex === index && (
+                                                    <div style={{ marginTop: '0.5rem' }}>
+                                                        <table className="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Sélectionnez</th>
+                                                                    <th>Admin</th>
+                                                                    <th>Super admin</th>
+                                                                    <th>Accompagnateur</th>
+                                                                    <th>Editeur catalogue</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr key={acces.id}>
+                                                                    <td>
+                                                                        <input
+                                                                            type="radio"
+                                                                            name="accessBackEndDto"
+                                                                            value={acces.id}
+                                                                            checked={accessBackEndDto.id === acces.id} // Correction: comparer avec accessBackEndDto.id
+                                                                            onChange={() => handleAccesChange(acces.id)}
+                                                                        />
+                                                                    </td>
+                                                                    <td>{acces.admin ? "Oui" : "Non"}</td>
+                                                                    <td>{acces.superAdmin ? "Oui" : "Non"}</td>
+                                                                    <td>{acces.accompagnateur ? "Oui" : "Non"}</td>
+                                                                    <td>{acces.editeurCatalogue ? "Oui" : "Non"}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>  
+                                                )}
+                                            </div>  
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p>Aucun accès assigné</p>
+                                )}
+                            </div>
                         </div>
                         <div className="modal-footer">
                             

@@ -7,7 +7,6 @@ import { deleteSousParametre, getSousParametreById } from '../../../servicesApi/
 import { Link } from 'react-router-dom';
 
 function DeleteSousParametre({id}) {
-      //const navigate = useNavigate();
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
@@ -29,6 +28,7 @@ function DeleteSousParametre({id}) {
                  setNom(fonctionnalite.nom);
                  setDescription(fonctionnalite.description);
                  setUserCreate(fonctionnalite.userCreate);
+                 setActiver(fonctionnalite.activer);
             });
       };
 
@@ -48,8 +48,7 @@ function DeleteSousParametre({id}) {
       };
       return(
             <>
-            {/* <Header />
-            <SideNav/> */}
+       
             <Link onClick={handleShow} className="dropdown-item text-danger">Supprimer</Link>
             
 
@@ -75,14 +74,14 @@ function DeleteSousParametre({id}) {
                                     onChange={(e) => setDescription(e.target.value) }
                                     className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                         </div>
-                          {/* <div className="form-check">
+                          <div className="form-check">
                             <input className="form-check-input" type="checkbox"
-                                activated={activer}
+                                checked={activer}
                                 onChange={(e) => setActiver(e.target.checked) } disabled/>
                             <label className="form-check-label" htmlFor="flexCheckChecked">
                               Activer
                             </label>
-                          </div> */}
+                          </div>
                             <div className="modal-footer">
                               <button type="button" className="btn btn-danger light" onClick={handleClose}>Fermer</button>
                               <button className="btn btn-primary" onClick={ handleDeleteSousParametre } >- Supprimer</button>

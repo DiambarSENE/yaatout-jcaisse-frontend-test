@@ -12,8 +12,6 @@ import { Link } from 'react-router-dom';
 
 function EditSousParametre({id}) {
 
-      //const {id} = useParams();
-      //const typeId = parseInt(id);
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
@@ -23,8 +21,6 @@ function EditSousParametre({id}) {
       //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
       const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);
 
-      //const idUser = stateIdUserFromToken;
-      //const [userCreate, setUserCreate] = useState(idUser);
       const [nom, setNom ] =  useState("");
       const [description, setDescription] =  useState("");
       const [activer, setActiver] = useState(false);
@@ -41,7 +37,7 @@ function EditSousParametre({id}) {
                  setNom(sousParametre.nom);
                  setDescription(sousParametre.description);
                  setActiver(sousParametre.activer);
-
+                 setParametre(sousParametre.parametre)
             });
       };
 
@@ -70,8 +66,7 @@ function EditSousParametre({id}) {
 
         return(
             <>
-            {/* <Header/>
-            <SideNav /> */}
+           
            <Link onClick={handleShow} className="dropdown-item text-muted">Modifier</Link>
             
 
@@ -135,7 +130,7 @@ function EditSousParametre({id}) {
               <Modal.Footer>
               </Modal.Footer>
               </Modal>
-          {/* <Footer/> */}
+   
            </>
         );
 }

@@ -5,19 +5,20 @@ import { AppContextRole, useAuth } from '../../../useContext/contextStateUser';
 import { Link } from 'react-router-dom';
 
 function DeleteRole({idRole}) {
-      //const navigate = useNavigate();
-      const [show, setShow] = useState(false);
-      const handleClose = () => setShow(false);
-      const handleShow = () => setShow(true);
+    //const navigate = useNavigate();
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
-      //const { stateRole, setStateRole  } = useContext(AppContextRole);
-      const { roles, fetchRoles } = useAuth();
+    //const { stateRole, setStateRole  } = useContext(AppContextRole);
+    const { roles, fetchRoles } = useAuth();
 
-      const [id, setId] = useState("");
-      const [nom, setNom] = useState("");
-      const [activer, setActiver] = useState(false);
-      const [description, setDescription] = useState("");
-      const [createBy, setCreateBy] = useState("");
+    const [id, setId] = useState("");
+    const [nom, setNom] = useState("");
+    const [activer, setActiver] = useState(false);
+    const [description, setDescription] = useState("");
+    const [createBy, setCreateBy] = useState("");
+    const [erreur, setErreur] = useState("");
 
        // Récupération des informations du rôle
     useEffect(() => {
@@ -54,10 +55,11 @@ const handleDeleteRole = async (e) => {
       await deleteRole(id);
       handleClose();
       fetchRoles(); // Rafraîchir la liste des rôles après suppression
-      alert("Rôle supprimé avec succès !");
+      //alert("Rôle supprimé avec succès !");
   } catch (err) {
       console.error("Erreur lors de la suppression:", err);
-      alert("Impossible de supprimer un rôle relié à un utilisateur. Supprimez d'abord l'utilisateur.");
+      setErreur(err.response.data.message);
+      //alert("Impossible de supprimer un rôle relié à un utilisateur. Supprimez d'abord l'utilisateur.");
   }
 };
 
@@ -101,7 +103,7 @@ const handleDeleteRole = async (e) => {
                           </div>
                         </div>
                         <div className="modal-footer">
-                            
+                            { erreur && <span style={{ color: 'red'}}>{erreur}</span> }
                             <button type="button" className="btn btn-danger light" onClick={handleClose}>Fermer</button>
                             <button className="btn btn-primary">- Supprimer</button>
                             

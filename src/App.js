@@ -4,9 +4,6 @@ import React, { useCallback, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppContext, useAppState, AppContextParamByType, useAppStateParamByType, useAppStateSousParametre, AppContextSousParametre, AppContextParam, useAppStateParam} from './useContext/context';
 import { getAllSousParametres, getParametres, getTypes } from './servicesApi/microservice-parametre';
-import Footer from './components/templates/Footer';
-import Header from './components/templates/header';
-import SideNav from './components/templates/SideNav';
 import Home from './components/templates/home';
 // import Inscription from './components/utilisateurs/inscription.js';
 import Connexion from './components/api-utilisateur/utilisateurs/connexion';
@@ -17,9 +14,7 @@ import ListUser from './components/api-utilisateur/utilisateurs/listUser';
 import ListRole from './components/api-utilisateur/roles/listRole';
 import { decodeJWT } from './validateur/decoteToken';
 import Inscription from './components/api-utilisateur/utilisateurs/inscription';
-import AddRole from './components/api-utilisateur/roles/addRole';
 import ListType from './components/api-parametre/types/listType';
-import EditParametre from './components/api-parametre/parametre/editParametre';
 import ListParametreByType from './components/api-parametre/parametre/listParametreByType';
 import ListSousParametre from './components/api-parametre/sousParametre/listSousParametre';
 import ListAccessBackend from './components/api-utilisateur/accessBackend/listAccessBackend';
@@ -47,7 +42,6 @@ function App() {
     const [ stateFonctionnalite, setStateFonctionnalite ] = useAppStateFonctionnalite(AppContextFonctionnalite);
     
     const token = getAuthToken();
-    
 
     const handlerToken = () => {
         // Récupérez le token JWT depuis le stockage local
@@ -99,8 +93,6 @@ function App() {
         handleGetType();
         handlerGetParametre();
         handlerGetSousParametre();
-        //handlerGetUtilisateur();
-        // handlerGetRole();
         handlerToken();
         handlerGetAccessBackEnd(); 
         handlerGetAccessEntreprise();
@@ -129,26 +121,6 @@ function App() {
                 console.error(error);
             });
     };
-    
-    // const handlerGetRole = () => {
-    //     getAllRoles()
-    //         .then( resp => {
-    //             setStateRole(resp.data);
-    //     })
-    //     .catch((err) => {
-    //         console.log(err)
-    //     });
-    // };
-    
-    // const handlerGetUtilisateur = () => {
-    //     getUsers()
-    //         .then(resp => {
-    //             setStateUtilisateur(resp.data);
-    //     })
-    //     .catch(err => {
-    //         console.log(err)
-    //     });
-    // };
 
     const handlerGetAccessBackEnd = () => {
         getAllAccessBackEnds()
@@ -159,6 +131,7 @@ function App() {
             console.log(err)
         });
     };
+
     const handlerGetAccessEntreprise = () => {
         getAllAccessEntreprises()
             .then(resp => {
@@ -168,6 +141,7 @@ function App() {
             console.log(err)
         });
     };
+
     const handlerGetEntreprise = () => {
         getAllEntreprises()
             .then(resp => {
@@ -177,6 +151,7 @@ function App() {
             console.log(err)
         });
     }; 
+
     const handlerGetFonctionnalite = () => {
         getAllFonctionnalites()
             .then(resp => {
@@ -213,12 +188,8 @@ function App() {
                         <Route path="/" exact element={ < Connexion /> }></Route>
                         <Route path="/home"   element={ < Home  /> } ></Route>
                         <Route path="/types" element={ < ListType /> } ></Route>
-                        {/* <Route path="/addParametre" element={ < AddParametre /> }></Route> */}
-                        <Route path="/editParametre/:id" element={ < EditParametre /> }></Route>
-                        {/* <Route path="/listParametre" element={ < ListParametre /> }></Route> */}
                         <Route path="/listParametreByType/:id" element={ < ListParametreByType /> }></Route>
                         <Route path="/adminInscription" element={ < Inscription /> }></Route> 
-                        <Route path="/adminAddRole" element={ < AddRole /> }></Route>
                         <Route path="/profile" element={ <Profile /> }></Route>
                         <Route path="/utilisateurs" element={ <ListUser /> }></Route>
                         <Route path="/roles" element={ <ListRole /> }></Route>
@@ -228,7 +199,6 @@ function App() {
                         <Route path="/accesBackends" element={ < ListAccessBackend/>}></Route>
                         <Route path="/fonctionnalites" element={ < ListFonctionnalite/>}></Route>
                     </Routes>
-
                 </BrowserRouter>
         </AppContextFonctionnalite.Provider>
          </AppContextEntreprise.Provider>

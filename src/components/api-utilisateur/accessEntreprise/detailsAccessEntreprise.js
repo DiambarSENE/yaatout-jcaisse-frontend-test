@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link  } from 'react-router-dom';
-import {  faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal';
 import { getAccessEntrepriseById } from '../../../servicesApi/microservice-utilisateur';
 import { Button, Form } from 'react-bootstrap';
@@ -11,6 +9,7 @@ function DetailsAccessEntreprise({id}) {
    const [show, setShow] = useState(false);
    const handleClose = () => setShow(false);
    const handleShow = () => setShow(true);
+   const [toggleIndex, setToggleIndex] = useState(null);
          
 
    const [admin, setAdmin ] = useState(false);
@@ -174,15 +173,40 @@ function DetailsAccessEntreprise({id}) {
                <h4>Rôles</h4>
                {role.length > 0 ? (
                   role.map((r, index) => (
-                     <div key={index} style={{ marginBottom: "1rem" }}>
-                     <p><strong>Nom du rôle :</strong> {r.nom}</p>
-                     <p><strong>Actif :</strong> {r.activer ? "Oui" : "Non"}</p>
-                     <p><strong>Créé par :</strong> {r.createBy}</p>
-                     <p><strong>Date de création :</strong> {r.createAt}</p>
-                     <p><strong>Modifié par :</strong> {r.updateBy}</p>
-                     <p><strong>Date de modification :</strong> {r.updateAt}</p>
-                  
-                     </div>
+                     <div
+                      key={index}
+                      style={{
+                        marginBottom: '1rem',
+                        padding: '0.5rem',
+                        borderLeft: '3px solid #007bff',
+                        backgroundColor: '#f9f9f9',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          cursor: 'pointer',
+                          alignItems: 'center',
+                        }}
+                        onClick={() => setToggleIndex(toggleIndex === index ? null : index)}
+                      >
+                        <strong>{r.nom || 'Sans nom'}</strong>
+                        <span>{toggleIndex === index ? '▲' : '▼'}</span>
+                      </div>
+
+                      {toggleIndex === index && (
+                        <div style={{ marginTop: '0.5rem' }}>
+                           <p><strong>Nom du rôle :</strong> {r.nom}</p>
+                           <p><strong>Actif :</strong> {r.activer ? "Oui" : "Non"}</p>
+                           <p><strong>Créé par :</strong> {r.createBy}</p>
+                           <p><strong>Date de création :</strong> {r.createAt}</p>
+                           <p><strong>Modifié par :</strong> {r.updateBy}</p>
+                           <p><strong>Date de modification :</strong> {r.updateAt}</p>
+                        
+                        </div>
+                      )}
+                      </div>
                   ))
                ) : (
                   <p>Aucun rôle disponible.</p>

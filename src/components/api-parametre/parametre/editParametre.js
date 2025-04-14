@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate  } from 'react-router-dom';
-import {updateParametre, getParametreById, getTypes, getParametres, getParametreByIdType} from '../../../servicesApi/microservice-parametre';
-import {  faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {updateParametre, getParametreById, getTypes,  getParametreByIdType} from '../../../servicesApi/microservice-parametre';
 import Modal from 'react-bootstrap/Modal';
 import { ValidationName, ValidationTypes } from '../../../validateur/validation';
-import Header from '../../templates/header';
-import Footer from '../../templates/Footer';
-import SideNav from '../../templates/SideNav';
 import { AppContext, AppContextParam, AppContextParamByType } from '../../../useContext/context';
 import { AppContextIdUserByToken } from '../../../useContext/contextStateUser';
 
@@ -18,17 +13,13 @@ function EditParametre({id}) {
       //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
       const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);
       const { stateParametreByType, setStateParametreByType } = useContext(AppContextParamByType);
-      // const {stateParametre, setStateParametre } = useContext(AppContextParam);
       const { stateT, setStateT } = useContext(AppContext);
-      //const {id} = useParams();
-      //const id = parseInt(id);
+
       const navigate = useNavigate();
 
       const [nom, setNom ] =  useState("");
       const [symbole, setSymbole] = useState("");
       const [type, setType] = useState({id : ""});
-      //const userId = stateIdUserFromToken;
-      //const [userCreate, setUserCreate] = useState(userId);
       const [updateBy, setUpdateBy] = useState(); 
       const [activer, setActiver] = useState(false);
 
@@ -44,8 +35,6 @@ function EditParametre({id}) {
             let parametre = resp.data;
             setNom(parametre.nom);
             setSymbole(parametre.symbole);
-            //setType(parametre.type.nom);
-            //setUserCreate(parametre.userCreate);
             setActiver(parametre.activer);
 
         });
@@ -102,20 +91,17 @@ function EditParametre({id}) {
           console.log(err)
       });
     };
-      //const cancel = () => {
-        //navigate("/listParametre")
-      //};
+   
 
         return(
             <>
-            {/* <Header />
-            <SideNav /> */}
+           
            <Link onClick={handleShow} className="dropdown-item text-muted">Modifier</Link>
             
 
              <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Modification d'un Parametre</Modal.Title>
+                  <Modal.Title>Modification d'un Paramètre</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                         <form onSubmit={ handleUpdateParametre } >
@@ -154,18 +140,9 @@ function EditParametre({id}) {
                            </select>          
                           </div>
 
-                           {/* <div className="mb-3">
-
-                               <input name="userCreate"
-                                      type="hidden" min="0"
-                                      value={userCreate}
-                                      onChange={(e) => setUserCreate(e.target.value) }
-                                      className="form-control" id="exampleFormControlInput1" placeholder="userCreate"/>
-                            </div> */}
-
                            <div className="form-check">
                              <input className="form-check-input" type="checkbox"
-                                activer={activer}
+                                checked={activer}
                                 onChange={(e) => setActiver(e.target.checked) } />
                              <label className="form-check-label" htmlFor="flexCheckChecked">
                                Activer
@@ -183,7 +160,7 @@ function EditParametre({id}) {
               <Modal.Footer>
               </Modal.Footer>
           </Modal>
-          {/* <Footer/> */}
+         
         </>
         );
 }

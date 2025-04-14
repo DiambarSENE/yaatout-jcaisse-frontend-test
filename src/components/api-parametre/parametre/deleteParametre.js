@@ -1,25 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { deleteParametre, deleteParametreById, getParametreById } from '../../../servicesApi/microservice-parametre';
-import Button from 'react-bootstrap/Button';
+import {  deleteParametreById, getParametreById } from '../../../servicesApi/microservice-parametre';
 import Modal from 'react-bootstrap/Modal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import Header from '../../templates/header';
-import Footer from '../../templates/Footer';
-import SideNav from '../../templates/SideNav';
-import { AppContextParam, AppContextParamByType } from '../../../useContext/context';
+import {  AppContextParamByType } from '../../../useContext/context';
 import { Link } from 'react-router-dom';
 
 function DeleteParametre({id}) {
-    //const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const { stateParametreByType, setStateParametreByType } = useContext(AppContextParamByType);
-    //const { stateParametre, setStateParametre} = useContext(AppContextParam);
 
     const [ nom, setNom ] =  useState("");
     const [symbole, setSymbole] = useState("");
+    const [ erreur, setErreur ] =  useState("");
 
       useEffect( () => {
          handleGetParametreById(id);
@@ -41,19 +34,17 @@ function DeleteParametre({id}) {
           .then(resp =>{
             const newParametres = stateParametreByType.filter((t) => t.id !== id);
             setStateParametreByType(newParametres);
-            alert(resp.data);
+           // alert(resp.data);
           })
           .catch(err => {
-            console.log(err)
+            console.log(err);
+            setErreur(err.response.data.message);
         });
   };
-     //const cancel = () => {
-       //  navigate("/listtype");
-    //};
+    
     return(
         <>
-       {/* <Header />
-       <SideNav/> */}
+     
           <Link onClick={handleShow} className="dropdown-item text-danger">Supprimer</Link>
           
 
@@ -84,37 +75,9 @@ function DeleteParametre({id}) {
                     onChange={(e) => setSymbole(e.target.value) }
                       className="form-control" id="exampleFormControlTextarea1" disabled></input>
           </div>
-          {/* <div className="mb-3">
-          <label htmlFor="exampleFormControlTextarea1" className="form-label">Type :</label>
-          <input  name="symbole"
-                    type="text"
-                    value={types}
-                    onChange={(e) => setTypes(e.target.value) }
-                      className="form-control" id="exampleFormControlTextarea1" disabled></input>
-            
-          </div>
-
-          <div className="mb-3">
-
-              <input name="userCreate"
-                    type="hidden" min="0"
-                    value={userCreate}
-                    onChange={(e) => setUserCreate(e.target.value) }
-                    className="form-control" id="exampleFormControlInput1" placeholder="userCreate" disabled/>
-          </div>
-
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox"
-              isActivated={isActivated}
-              onChange={(e) => setIsActivated(e.target.checked) } disabled/>
-            <label className="form-check-label" htmlFor="flexCheckChecked">
-              Activated
-            </label>
-          </div>
-          <br/>
-          <div style={{color:"red"}}>Les champs qui ont (*) sont obligatoires</div> */}
+        
           <div className="modal-footer">
-            
+               {erreur && <span style={{ color: 'red' }}>{erreur}</span>}
               <button type="button" className="btn btn-danger light" onClick={handleClose}>Fermer</button>
               <button type="button" className="btn btn-primary" onClick={ handleDeleteParametre}>- Supprimer</button>
               
@@ -125,7 +88,7 @@ function DeleteParametre({id}) {
 
               </Modal.Footer>
           </Modal>
-          {/* <Footer/> */}
+      
    </>
     );
 }

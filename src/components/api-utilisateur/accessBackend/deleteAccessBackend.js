@@ -20,6 +20,9 @@ function DeleteAccessBackend({id}) {
       const [createBy, setCreateBy] =  useState("");
       const [accompagnateur, setAccompagnateur] =  useState(false);
       const [editeurCatalogue, setEditeurCatalogue] =  useState(false);
+      const [personnel, setPersonnel] =  useState(false);
+      const [erreur, setErreur] = useState("");
+
 
      useEffect(() =>{
       if (id) {
@@ -34,6 +37,7 @@ function DeleteAccessBackend({id}) {
                   setSuperAdmin(accessBackend.superAdmin);
                   setAdmin(accessBackend.admin);
                   setAccompagnateur(accessBackend.accompagnateur);
+                  setPersonnel(accessBackend.personnel);
                   setCreateBy(accessBackend);
                   setEditeurCatalogue(accessBackend.editeurCatalogue);
             });
@@ -55,6 +59,7 @@ function DeleteAccessBackend({id}) {
               } )
               .catch(err => {
                 console.log(err)
+                setErreur(err.response.data.message);
             });
       };
       return(
@@ -108,7 +113,14 @@ function DeleteAccessBackend({id}) {
                               Éditeur Catalogue
                             </label>
                           </div>
-
+                           <div className="form-check">
+                              <input className="form-check-input" type="checkbox"
+                                checked={personnel}
+                                onChange={(e) => setPersonnel(e.target.checked) } />
+                              <label className="form-check-label">
+                                Personnel
+                              </label>
+                            </div>
                           <div className="form-check">
                             <input className="form-check-input" type="checkbox"
                               checked={activer}
@@ -119,8 +131,10 @@ function DeleteAccessBackend({id}) {
                           </div>
                           <br/>
                             <div className="modal-footer">
+                            {erreur && <span style={{ color: 'red' }}>{erreur}</span>}
                               <button type="button" className="btn btn-danger light" onClick={handleClose}>Fermer</button>
                               <button className="btn btn-primary" onClick={ handleDeleteAccessBackend } >- Supprimer</button>
+                           
                             </div>
                         </form>
                 </Modal.Body>

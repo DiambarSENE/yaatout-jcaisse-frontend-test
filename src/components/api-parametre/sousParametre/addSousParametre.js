@@ -14,9 +14,7 @@ function AddSousParametre() {
     const { stateSousParametre, setStateSousParametre } = useContext(AppContextSousParametre);
      //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
     const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);  
-    
-    //const idUser = stateIdUserFromToken; 
-    //const [userCreate, setUserCreate] = useState(idUser);
+
     const [nom, setNom ] =  useState("");
     const [description, setDescription ] =  useState("");
     const [activer, setActiver] = useState(false);
@@ -25,11 +23,10 @@ function AddSousParametre() {
 
     // États pour les erreurs de validation
      const [nameError, setNameError] = useState("");
-
+     const [erreur, setErreur ] =  useState("");
     
     const saveSousParametre = (e) => {
         e.preventDefault();
-        const userCreate = stateIdUserFromToken;
         const nameError = ValidationName(nom);
         let sousParametre = {  nom, description, parametre,createBy, activer };
         if(!nameError){
@@ -47,6 +44,10 @@ function AddSousParametre() {
                   // Fermer le modal après la création du type
                   //const modal = document.getElementById('basicModal');
                   //modal .hide();
+              })
+              .catch(err => {
+                console.log("erreur =>",err);
+                setErreur(err.response.data.message);
               });
         }else{
             setNameError(nameError)
@@ -67,7 +68,8 @@ function AddSousParametre() {
             setStateSousParametre(updatedSousParametres);
           })
           .catch(err => {
-              console.log(err)
+              console.log(err);
+              
        });
 
     };
@@ -89,13 +91,15 @@ function AddSousParametre() {
                           <div className="mb-3">
                             <label htmlFor="exampleFormControlInput1" className="form-label">
                               Nom <span style={{color:"red"}}>*</span> :
-                              {nameError && <span style={{color:"red"}}>{ nameError }</span> }
+                              
                             </label>
+                            {nameError && <span style={{color:"red"}}>{ nameError }</span> }
                             <input name="nom"
                                   type="text"
                                   value={nom}
                                   onChange={(e) => setNom(e.target.value) }
                                   className="form-control" id="exampleFormControlInput1" placeholder="Entrez le nom"></input>
+                              {erreur && <span style={{color:"red"}}>{ erreur }</span> }
                           </div>
                           <div className="mb-3">
                           <label htmlFor="exampleFormControlTextarea1" className="form-label">Description : </label>

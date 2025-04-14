@@ -11,14 +11,13 @@ import Header from '../../templates/header';
 import Footer from '../../templates/Footer';
 import SideNav from '../../templates/SideNav';
 import { AppContext } from '../../../useContext/context';
-import Connexion from '../../api-utilisateur/utilisateurs/connexion';
-import { AppContextToken, useAuth } from '../../../useContext/contextStateUser';
+import { useAuth } from '../../../useContext/contextStateUser';
 import Preload from '../../templates/preload';
+import DetailsType from './detailsType';
 
 function ListType(){
   const navigate = useNavigate();
   //j'utilise le token pour la redirection entre le page d'accueil et la page de connexion
- // const {stateToken , setStateToken} = useContext(AppContextToken);
   const {stateToken} = useAuth(); // ✅ Récupère correctement le token depuis le contexte
 
   const { stateT, setStateT } = useContext(AppContext);
@@ -81,24 +80,6 @@ function ListType(){
             cell: (row) => <div style={{ fontWeight: "bold" }}>{row.createAt}</div>,
         },
         {
-            name: "Crée par ",
-            selector: row => row.createBy,
-            sortable: true,
-            cell: (row) => <div style={{ fontWeight: "bold" }}>{row.createBy}</div>,
-        },
-        {
-          name: "Modifié par ",
-          selector: row => row.updateBy,
-          sortable: true,
-          cell: (row) => <div style={{ fontWeight: "bold" }}>{row.updateBy}</div>,
-        },
-        {
-          name: "Date de modification",
-          selector: row => row.updateAt,
-          sortable: true,
-          cell: (row) => <div style={{ fontWeight: "bold" }}>{row.updateAt}</div>,
-        },
-        {
             name: "Activer/Desactiver",
             cell: (row) => (
               <div>
@@ -119,6 +100,7 @@ function ListType(){
                           < EditType id={row.id} />  
                     
                           < DeleteType id={row.id}/>
+                          < DetailsType id={row.id} />
                   </div>
                   </div>
                   </div> 
@@ -150,23 +132,10 @@ function ListType(){
         }
       }
 
-    // const listType = () => {
-    //     navigate("/listType")
-    //  };
-    //  const listParametre = () => {
-    //     navigate("/listParametre")
-    //  };
    return(
     <>
      <Preload/>
      <div id="main-wrapper">
-      {/* {
-         !stateToken || stateToken === "null" ? ( 
-          < Connexion />
-       
-          ) :
-          (
-            <> */}
                 <Header/>
                 <SideNav />
                 <div className="content-body">
@@ -183,7 +152,7 @@ function ListType(){
                         </ul>
                       </div>
                       <div className="mb-4">
-                          { < AddType /> }
+                           < AddType /> 
                       </div>
                 
                     </div>	
@@ -196,7 +165,10 @@ function ListType(){
                               <div className="col-12">
                                 <div className="card">
                                   <div className="card-header">
-                                    <h4 className="card-title">Liste des Types</h4>
+                                    {/* <h4 className="card-title">Liste des Types</h4> */}
+                                    <ol className="breadcrumb">
+                                          <li className="breadcrumb-item active"><a href="#">Géstion des types</a></li>
+                                      </ol>
                                   </div>
                                   <div className="card-body">
                                 <div >
@@ -226,9 +198,7 @@ function ListType(){
                   </div>
                 </div> 
                 <Footer /> 
-            {/* </>
-          )
-      }      */}
+           
       </div>
     </>
 

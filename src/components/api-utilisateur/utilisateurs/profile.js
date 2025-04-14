@@ -2,8 +2,8 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import Footer from "../../templates/Footer";
 import Header from "../../templates/header";
 import SideNav from "../../templates/SideNav";
-import { AppContextEmailByToken, AppContextRole, AppContextRoleByToken, AppContextToken, AppContextUserByEmail, useAuth } from "../../../useContext/contextStateUser";
-import { getAuthToken, getUserByEmail, updatePassword, updateUser, getEmailInLocalStorage } from "../../../servicesApi/microservice-utilisateur";
+import {  AppContextRoleByToken, AppContextUserByEmail, useAuth } from "../../../useContext/contextStateUser";
+import {  getUserByEmail, updatePassword, updateUser, getEmailInLocalStorage } from "../../../servicesApi/microservice-utilisateur";
 import { decodeJWT } from "../../../validateur/decoteToken";
 import Connexion from "./connexion";
 import { useNavigate } from "react-router";
@@ -12,12 +12,8 @@ function Profile(){
      const navigate = useNavigate();
     const emailInLocalStorage = getEmailInLocalStorage();
       //j'utilise le token pour la redirection entre le page d'accueil et la page de connexion
-     //const {stateToken , setStateToken} = useContext(AppContextToken);   
       const {stateToken} = useAuth(); // ✅ Récupère correctement le token depuis le contexte
-    // const [componentToShow, setComponentToShow] = useState("");
-     //const [userRoles, setUseRoles] = useState([]);
     const {stateRoleFromToken, setStateRoleFromToken} = useContext(AppContextRoleByToken);
-    //const {stateEmailFromToken , setStateEmailFromToken} = useContext(AppContextEmailByToken);
     const {stateUserByEmail, setStateUserByEmail} = useContext(AppContextUserByEmail);
   
 
@@ -77,7 +73,7 @@ function Profile(){
             setErrorPassNew2("Les mots de passe doivent être identiques.");
             return;
         }
-        const password = passwordNew
+        const password = passwordNew;
         // Si toutes les conditions sont remplies
         const updatePass = { email, password };
         updatePassword(updatePass).then(resp => {

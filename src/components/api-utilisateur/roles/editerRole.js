@@ -85,7 +85,7 @@ function EditerRole({idRole}) {
 
              <Modal show={show} onHide={handleClose} size='lg'>
                 <Modal.Header closeButton>
-                  <Modal.Title>Modification d'un role</Modal.Title>
+                  <Modal.Title>Modification d'un rôle</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <form onSubmit={ handleUpdateRole }>

@@ -17,16 +17,8 @@ import DetailsRole from "./detailsRole";
 function ListRole(){
   const navigate = useNavigate();
    //j'utilise le token pour la redirection entre le page d'accueil et la page de connexion
-  //const {stateToken , setStateToken} = useContext(AppContextToken);
-  // const {stateToken} = useAuth(); // ✅ Récupère correctement le token depuis le contexte
   const { stateToken, roles, setRoles, fetchRoles } = useAuth(); // ✅ Récupère la liste des roles
-   
-      // useEffect(() => {
-          // fetchRoles(); // ✅ Récupérer la liste des roles au montage
-      // }, [fetchRoles]);
-
- // const { stateRole, setStateRole} = useContext(AppContextRole);
-
+ 
   // <gerer la redirection vers la page de connexion si le token n'existe pas>
   const handlerRedirection = useCallback(() => {
       if(!stateToken || stateToken === null){
@@ -133,7 +125,7 @@ function ListRole(){
 
               </div>
               <div className="mb-4">
-                  { < AddRole />}
+                   < AddRole />
               </div>
             </div>	
           <div className="row">
@@ -145,7 +137,9 @@ function ListRole(){
                       <div className="col-12">
                         <div className="card">
                           <div className="card-header">
-                            <h4 className="card-title">Liste des Roles</h4>
+                            <ol className="breadcrumb">
+                                <li className="breadcrumb-item active"><a href="#">Géstion des rôles</a></li>
+                            </ol>
                           </div>
                           <div className="card-body">
                         <div >

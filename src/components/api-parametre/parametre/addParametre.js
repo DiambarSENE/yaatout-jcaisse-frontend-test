@@ -11,14 +11,12 @@ import { AppContextIdUserByToken } from '../../../useContext/contextStateUser';
 
 
 function AddParametre() {
-      //const navigate = useNavigate();
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
       //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
       const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);
       const { stateParametreByType, setStateParametreByType } = useContext(AppContextParamByType);
-   //   const {stateParametre, setStateParametre } = useContext(AppContextParam)
      const { stateT, setStateT } = useContext(AppContext);
 
      const [nomError, setNomError] = useState("");
@@ -28,10 +26,9 @@ function AddParametre() {
      const [symbole, setSymbole] = useState("");
      const [types, setTypes] = useState("");
      const [type, setType] = useState({id : ""});
-     //const userId = stateIdUserFromToken;
-     //const [createBy, setCreateBy] = useState(userId);
      const [createBy, setCreateBy] = useState();
      const [activer, setActiver] = useState(false);
+     const [erreur, setErreur] = useState("");
 
      const handleSaveParametre = (e) => {
         e.preventDefault();
@@ -52,8 +49,8 @@ function AddParametre() {
             getParametre();
             
          }).catch(error => {
-            console.log(error);
-           // alert(error);
+            console.log("error => ", error);
+            setErreur(error.response.data.message);
          })
         }else{
           setNomError(nomError)
@@ -62,15 +59,6 @@ function AddParametre() {
         
      };
 
-   //   const getParametre = () => {
-   //       getParametres()
-   //          .then(resp => {
-   //             setStateParametre(resp.data)
-   //       })
-   //       .catch(err=>{
-   //          console.log(err)
-   //       })
-   //   };
    const getParametre = () => {
       getParametreByName(nom).then(response => {
          getParametreByIdType(response.data.type.typeId).then(resp => {
@@ -85,32 +73,31 @@ function AddParametre() {
       });
         
      };
+     
     return(
         <>
-        {/* <Header />
-        <SideNav /> */}
+     
             <button className="btn btn-primary btn-rounded fs-18" onClick={handleShow}>
-               + Ajout dun Parametre
+               + Ajouter un Paramètre
             </button>
-            {/* <Button variant="primary" onClick={handleShow}>
-               + Ajout dun Parametre
-            </Button> */}
+          
             <Modal show={show} onHide={handleClose}>
                <Modal.Header closeButton>
-                  <Modal.Title>Ajout d'un nouveau parametre</Modal.Title>
+                  <Modal.Title>Ajouter un nouveau paramètre</Modal.Title>
                </Modal.Header>
                <Modal.Body>
                      <form onSubmit={ handleSaveParametre } >
                         <div className="mb-3">
                            <label htmlFor="exampleFormControlInput1" className="form-label">
                            Nom <span style={{color:"red"}}>*</span> :
-                              {nomError && <span style={{color:"red"}}>{ nomError }</span> }
                            </label>
+                           {nomError && <span style={{color:"red"}}>{ nomError }</span> }
                            <input name="nom"
                                  type="text"
                                  value={nom}
                                  onChange={(e) => setNom(e.target.value) }
                                  className="form-control" id="exampleFormControlInput1" placeholder="le nom du parametre"></input>
+                           {erreur && <span style={{color:"red"}}>{ erreur }</span> }
                         </div>
                         <div className="mb-3">
                            <label htmlFor="exampleFormControlTextarea1" className="form-label">Symbole :</label>
@@ -154,7 +141,7 @@ function AddParametre() {
 
                </Modal.Footer>
             </Modal>
-         {/* <Footer/> */}
+ 
          </>
     );
 }

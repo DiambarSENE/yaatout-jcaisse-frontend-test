@@ -9,7 +9,7 @@ function Footer() {
         <div className="footer">
             <div className="copyright">
           
-                <p> Copyright © Conçu &amp; développé par <a href="../index.htm" target="_blank">YAATOUT SARL</a> 2025</p>
+                <p> Copyright © Conçu &amp; développé par <a href="#" target="_blank">YAATOUT SARL</a> 2025</p>
             </div>
         </div>
         {/***********************************

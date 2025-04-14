@@ -11,7 +11,6 @@ import { AppContext } from '../../../useContext/context';
 import { Link } from 'react-router-dom';
 
 function DeleteType({id}) {
-      //const navigate = useNavigate();
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
@@ -22,6 +21,7 @@ function DeleteType({id}) {
       const [description, setDescription] = useState("");
       const [userCreate, setUserCreate] = useState("");
       const [activer, setActiver] = useState(false);
+      const [erreur, setErreur ] =  useState("");
 
       useEffect(() =>{
            handleGetTypeById(id);
@@ -49,18 +49,13 @@ function DeleteType({id}) {
               } )
               .catch(err => {
                 console.log(err)
-                alert("Vous ne pouvez pas supprimer un type qui est relié avec un parametre.Supprimez d'abord le parametre en premiere")
-
+                //alert("Vous ne pouvez pas supprimer un type qui est relié avec un parametre.Supprimez d'abord le parametre en premiere")
+                 setErreur(err.response.data.message);
             });
       };
       return(
             <>
-            {/* <Header />
-            <SideNav/> */}
-             {/* <button onClick={handleShow} className="btn btn-outline-danger">
-                <FontAwesomeIcon icon={faTrash}>
-                </FontAwesomeIcon>
-             </button> */}
+         
               <Link onClick={handleShow} className="dropdown-item text-danger">Supprimer</Link>
              
 
@@ -87,8 +82,17 @@ function DeleteType({id}) {
                                       className="form-control" id="exampleFormControlTextarea1" rows="3" disabled></textarea>
                           </div>
                           
-                        
+                          <div className="form-check">
+                            <input className="form-check-input" type="checkbox"
+                              checked={activer}
+                              onChange={(e) => setActiver(e.target.checked) } />
+                            <label className="form-check-label" htmlFor="flexCheckChecked">
+                              Activer
+                            </label>
+                          </div>
+                          <br/>
                             <div className="modal-footer">
+                              {erreur && <span style={{ color: 'red' }}>{erreur}</span>}
                               <button type="button" className="btn btn-danger light" onClick={handleClose}>Fermer</button>
                               <button className="btn btn-primary" onClick={ handleDeleteType } >- Supprimer</button>
                             </div>
@@ -97,7 +101,7 @@ function DeleteType({id}) {
               <Modal.Footer>
               </Modal.Footer>
             </Modal>
-          {/* <Footer/> */}
+        
            </>
         );
 }

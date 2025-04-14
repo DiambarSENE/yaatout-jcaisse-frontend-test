@@ -15,8 +15,6 @@ import { AppContextIdUserByToken } from '../../../useContext/contextStateUser';
 
 function EditType({id}) {
 
-      //const {id} = useParams();
-      //const id = parseInt(id);
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
@@ -27,8 +25,6 @@ function EditType({id}) {
 
       const [nom, setNom ] =  useState("");
       const [description, setDescription] = useState("");
-      //const idUser = stateIdUserFromToken;
-      //const [userCreate, setUserCreate] = useState(idUser);
       const [activer, setActiver] = useState(false);
       const [updateBy, setUpdateBy] = useState("");
 
@@ -62,7 +58,7 @@ function EditType({id}) {
                             setStateT(resp.data);
                         })
                      //alert(res.data)
-                     //navigate("/listtype")
+                  
                  });
             }else{
                 setNomError(nameError)
@@ -72,11 +68,8 @@ function EditType({id}) {
 
         return(
             <>
-            {/* <Header/>
-            <SideNav /> */}
+          
             <Link onClick={handleShow} className="dropdown-item text-muted">Modifier</Link>
-   
-
              <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                   <Modal.Title>Modification d'un Type</Modal.Title>
@@ -123,7 +116,7 @@ function EditType({id}) {
               <Modal.Footer>
               </Modal.Footer>
               </Modal>
-          {/* <Footer/> */}
+    
            </>
         );
 }

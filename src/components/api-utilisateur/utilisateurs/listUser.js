@@ -1,28 +1,31 @@
-import React, { useCallback, useContext, useEffect } from "react"; 
-import { Link, useNavigate } from "react-router-dom";
-import DataTable from "react-data-table-component";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faCircle } from "@fortawesome/free-solid-svg-icons";
+import React, { useCallback,  useEffect, useState } from "react"; 
+import {  useNavigate } from "react-router-dom";
 import DeleteUser from "./deleteUser";
 import EditerUser from "./editerUser";
 import AddUser from "./addUser.js";
-import Connexion from "./connexion";
 import Preload from "../../templates/preload.js";
-import { AppContextToken, AppContextUtilisateur, useAuth, useUsers } from "../../../useContext/contextStateUser.js";
+import {  useAuth, useUsers } from "../../../useContext/contextStateUser.js";
 import Header from "../../templates/header.js";
 import Footer from "../../templates/Footer.js";
 import SideNav from "../../templates/SideNav.js";
-import { getAuthToken, getUsers, updateEtatActiver } from "../../../servicesApi/microservice-utilisateur.js";
+import { updateEtatActiver } from "../../../servicesApi/microservice-utilisateur.js";
 import DetailUser from "./detailUser.js";
 
 function ListUser(){
    const navigate = useNavigate();
+   //state pour activer les tables selon les roles
+   // l’onglet actif par défaut soit le premier rôle de
+   const [activeTab, setActiveTab] = useState("ADMIN");
+
    //j'utilise le token pour la redirection entre le page d'accueil et la page de connexion
-   //const {stateToken , setStateToken} = useContext(AppContextToken);
     const {stateToken} = useAuth(); // ✅ Récupère correctement le token depuis le contexte
-   //const { stateUtilisateur, setStateUtilisateur} = useContext(AppContextUtilisateur);
    const { users, setUsers } = useUsers(); // ✅ Récupérer la liste des utilisateurs
    
+   // États pour la pagination et la recherche
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [usersPerPage] = useState(10); // Nombre d'utilisateurs par page
+
   // <gerer la redirection vers la page de connexion si le token n'existe pas>
   const handlerRedirection = useCallback(() => {
       if(!stateToken || stateToken === null){
@@ -35,24 +38,172 @@ function ListUser(){
   }, [handlerRedirection]);
 // </gerer la redirection vers la page de connexion si le token n'existe pas>
 
-useEffect(() => {
-  console.log("Liste des utilisateurs:", users); // Affiche la liste dans la console
-}, [users]); // Ré-exécute le useEffect si la liste change
+  useEffect(() => {
+    console.log("Liste des utilisateurs:", users); // Affiche la liste dans la console
+  }, [users]); // Ré-exécute le useEffect si la liste change
 
+  // Réinitialiser la page quand le terme de recherche change
+  useEffect(() => {
+      setCurrentPage(1);
+  }, [searchTerm]);
 
-  function handleFilter(e) {
-    const researchText = e.target.value.toLowerCase();
-    if(researchText === ""){
-       getUsers().then(resp => {
-        setUsers(resp.data)
-       })
-    }else{
-      const recors = users.filter((row) => {
-          return row.nom.toLowerCase().includes(researchText);
-      });
-      setUsers(recors);
-    }
-  }
+  const accesMap = {
+    PERSONNEL: "personnel", 
+    ADMIN: "admin",
+    ACCOMPAGNATEUR: "accompagnateur",
+    INGENIEUR: "ingenieur",
+    ASSISTANT: "assistant",
+    EDITEUR: "editeurCatalogue",
+    SUPERADMIN: "superAdmin",
+  };
+
+ const renderTabContent = (acces) => {
+    const profilKey = accesMap[acces]; // on récupère la clé associée au rôle
+    
+    // Filtrer les utilisateurs selon le profil et la recherche
+    const filteredUsers = users.filter(u => {
+        const matchesProfile = u.accessBackEndDto?.[profilKey] === true;
+        const matchesSearch = searchTerm === '' || 
+            u.prenom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            u.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            u.matricule.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            u.email.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        return matchesProfile && matchesSearch;
+    });
+
+    // Calcul des utilisateurs à afficher pour la pagination
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+    // Fonction pour changer de page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    return (
+      <>
+        {/* Barre de recherche */}
+        <div className="mb-3">
+            <input
+                type="text"
+                className="form-control"
+                placeholder="Rechercher par nom, prénom, matricule ou email..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+        </div>
+
+        <table className="table table-bordered table-striped table-condensed">
+          <thead>
+            <tr>
+              <th>Prénom</th>
+              <th>Nom</th>
+              <th>Matricule</th>
+              <th>Email</th>
+              <th>Date de création</th>
+              <th>Profil</th>
+              <th>Contrat</th>
+              <th>Pièce jointe</th>
+              <th>Opérations</th>
+              <th>État</th>
+              <th>Activer/Désactiver</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentUsers.length > 0 ? (
+              currentUsers.map((user, index) => ( 
+                <tr key={`${user.id}-${index}`}>
+                  <td>{user.prenom}</td>
+                  <td>{user.nom}</td>
+                  <td>{user.matricule}</td>
+                  <td>{user.email}</td>
+                  <td>{user.createAt}</td>
+                  <td>{acces}</td>
+                  <td>{user.contrat}</td>
+                  <td>{user.pieceJointe}</td>
+                  <td>
+                      <EditerUser userId={user.id} />    
+                      <DeleteUser userId={user.id} /> 
+                      <DetailUser userId={user.id} /> 
+                  </td>
+                  <td>{user.activer ? "Activer" : "Désactiver"}</td>
+                  <td> 
+                    {user.activer ? 
+                      (
+                        <button onClick={() => handleActiveUser(user)} className="btn btn-sm btn-success">
+                          Désactiver
+                        </button>
+                      ) :
+                      (
+                        <button onClick={() => handleActiveUser(user)} className="btn btn-sm btn-danger">
+                          Activer
+                        </button>
+                      )
+                    }
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="11" className="text-center">
+                  {searchTerm ? "Aucun utilisateur trouvé pour cette recherche." : "Aucun utilisateur disponible pour ce profil."}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+
+        {/* Pagination */}
+        {filteredUsers.length > usersPerPage && (
+          <div className="d-flex justify-content-between align-items-center mt-3">
+            <div>
+              Affichage des utilisateurs {indexOfFirstUser + 1} à {Math.min(indexOfLastUser, filteredUsers.length)} sur {filteredUsers.length}
+            </div>
+            
+            <nav>
+              <ul className="pagination mb-0">
+                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                  <button 
+                    onClick={() => paginate(currentPage - 1)} 
+                    className="page-link"
+                    disabled={currentPage === 1}
+                  >
+                    &laquo; Précédent
+                  </button>
+                </li>
+
+                {[...Array(totalPages).keys()].map(number => (
+                  <li 
+                    key={number + 1} 
+                    className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}
+                  >
+                    <button 
+                      onClick={() => paginate(number + 1)} 
+                      className="page-link"
+                    >
+                      {number + 1}
+                    </button>
+                  </li>
+                ))}
+
+                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                  <button 
+                    onClick={() => paginate(currentPage + 1)} 
+                    className="page-link"
+                    disabled={currentPage === totalPages}
+                  >
+                    Suivant &raquo;
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        )}
+      </>
+    );
+  };
+
 
   const handleActiveUser = (user) => {
     updateEtatActiver(user).then((resp)=>{
@@ -66,189 +217,52 @@ useEffect(() => {
     })
 };
 
-  const columns = [
-      {
-          name: "Prénom",
-          selector: row => row.prenom,
-          sortable: true
-      },
-      {
-          name : "Nom",
-          selector:row => row.nom,
-          sortable: true
-      },
-      {
-          name: "Téléphone",
-          selector: row => row.telephone,
-          sortable: true
-      },
-      {
-          name: "Matricule",
-          selector: row => row.matricule,
-          sortable: true
-      },
-      {
-          name: "Email",
-          selector: row => row.email,
-          sortable: true
-      },
-      {
-        name: "Adresse",
-        selector: row => row.adresse,
-        sortable: true
-      },
-      {
-          name:"Date de création",
-          selector: row => row.createAt,
-          sortable: true
-      },
-      // {
-      //     name:"UserCreate",
-      //     selector: row => row.userCreate,
-      //     sortable: true
-      // },
-      {
-        name: "Activer",
-        cell: (row) => (
-          <div>
-            { <button onClick={() => handleActiveUser(row)} className="btn btn-outline-primary">
-              <FontAwesomeIcon icon={row.activer ? faCheckCircle : faCircle}
-              />
-            </button> }
-          </div>
-        ),
-        sortable: true,
-      },
-      {
-          name:"Operations",
-          cell: row => (
-                <div className="dropdown"><button className="btn btn-primary tp-btn-light sharp" type="button" data-bs-toggle="dropdown"><span className="fs--1"><svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" strokeWidth={1} fill="none" fillRule="evenodd"><rect x={0} y={0} width={24} height={24} /><circle fill="#000000" cx={5} cy={12} r={2} /><circle fill="#000000" cx={12} cy={12} r={2} /><circle fill="#000000" cx={19} cy={12} r={2} /></g></svg></span></button>
-                  <div className="dropdown-menu dropdown-menu-end border py-0">
-                      <div className="py-2">
-                       < EditerUser userId={row.id} /> 
-                        
-                        < DeleteUser userId={row.id} /> 
-                        < DetailUser userId={row.id} /> 
-                      </div>
-                  </div>
-              
-              </div>
-
-              
-                    
-
-            ),
-            sortable: true
-      }
-  ];
-
-
     return(
         <>
          <Preload/>
          <div id="main-wrapper">
-          {/* {
-             !stateToken || stateToken === "null" ? ( 
-              <Connexion/>
-              ) :
-              (
-              <>*/}
+         
                 <Header />
                 <SideNav /> 
-              
                 <div className="content-body">
-                    <br/>
-                    <div  className="ms-4 mb-3">
-                            { < AddUser />}
-                            {' '}
-                            <button className="btn btn-secondary btn-rounded fs-18">+Ajouter un personnel</button>
-                    </div>
-                    <div className="container-fluid">
-                  <div className="project-page d-flex justify-content-between align-items-center flex-wrap">
-                    <div className="project mb-4">
-                      <ul className="nav nav-tabs" role="tablist">
-                       
-                        <li className="nav-item">
-                          <a className="nav-link active" data-bs-toggle="tab"
-                          //  href="#AllStatus" onClick='' 
-                          role="tab">Liste des personnels</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" data-bs-toggle="tab" 
-                          // href="#OnProgress" onClick='' 
-                          role="tab">Liste des accompagnateurs</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" data-bs-toggle="tab" 
-                          // href="#OnProgress" onClick='' 
-                          role="tab">Liste des ingenieurs</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" data-bs-toggle="tab"
-                          //  href="#OnProgress" onClick='' 
-                          role="tab">Assistant(e)</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" data-bs-toggle="tab" 
-                          // href="#OnProgress" onClick='' 
-                          role="tab">Liste des accompagnateurs</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" data-bs-toggle="tab" 
-                          // href="#OnProgress" onClick='' 
-                          role="tab">Admin</a>
-                        </li>
-                        <li className="nav-item">
-                          <a className="nav-link" data-bs-toggle="tab" 
-                          // href="#OnProgress" onClick='' 
-                          role="tab">Super Admin</a>
-                        </li>
+                <div className="container text-center">
+                  <div  className="ms-4 mb-3">
+                      < AddUser />
+                      <button className="btn btn-secondary btn-rounded fs-18">+Ajouter un personnel</button>
+                  </div>
+                  </div>
+                  <div className="card-body">
+                    <div className="container text-center">
+                      <ul className="nav nav-tabs">
+                        {Object.keys(accesMap).map((roleKey) => ( 
+                          <li className="nav-item" key={roleKey}>
+                            <button
+                              className={`nav-link ${activeTab === roleKey ? "active" : ""}`}
+                              onClick={() => setActiveTab(roleKey)}
+                              style={{ cursor: "pointer" }}
+                              role="tab"
+                              aria-selected={activeTab === roleKey}
+                            >
+                              {roleKey}
+                            </button>
+                          </li>
+                        ))}
                       </ul>
-                    </div>
-                  </div>	
-                <div className="row">
-                    <div className="col-xl-12">
-                      <div className="tab-content">
-                        <div className="tab-pane fade active show" id="AllStatus">
-                          
-                          <div className="row">
-                            <div className="col-12">
-                              <div className="card">
-                                <div className="card-header">
-                                  <h4 className="card-title">Liste des personnels</h4>
-                                </div>
-                                <div className="card-body">
-                              <div >
-                              <div>
 
-                                  <div className='text-end'><input type='text' onChange={ handleFilter }/></div>
-                                  <br/>
-                              <DataTable 
-                                      columns={columns} 
-                                      data={users}  
-                                      fixedHeader
-                                      pagination
-                                      striped
-                                      /> 
+                      <div className="tab-content mt-3">
+                        <div className="tab-pane fade show active" role="tabpanel">
+                          {renderTabContent(activeTab)}
+                        </div>
                       </div>
                     </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
+                  </div>
                 </div>
                 <Footer/>
-              {/* </>
-              )
-          } */}
+           
           </div>
         </>
     )
 }
+
 
 export default ListUser;

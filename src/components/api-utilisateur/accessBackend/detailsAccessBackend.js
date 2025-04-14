@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import {  faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
 import { getAccessBackEndById } from '../../../servicesApi/microservice-utilisateur';
 import { Link } from 'react-router-dom';
@@ -22,6 +20,7 @@ function DetailsAccessBackend({id}) {
      const [accompagnateur, setAccompagnateur] =  useState(false);
      const [editeurCatalogue, setEditeurCatalogue] =  useState(false);
      const [utilisateur, setUtilisateur] = useState({});
+     const [personnel, setPersonnel] = useState("");
 
       useEffect(() =>{
         if (id) {
@@ -36,6 +35,7 @@ function DetailsAccessBackend({id}) {
                   setSuperAdmin(accessBackend.superAdmin);
                   setAdmin(accessBackend.admin);
                   setAccompagnateur(accessBackend.accompagnateur);
+                  setPersonnel(accessBackend.personnel);
                   setCreateBy(accessBackend.createBy);
                   setUpdateBy(accessBackend.updateBy);
                   setCreateAt(accessBackend.createAt);
@@ -53,12 +53,18 @@ function DetailsAccessBackend({id}) {
             </Link>
             <Modal show={show} onHide={handleClose} size="lg">
               <Modal.Header closeButton>
-                <Modal.Title>Détails d'access backend</Modal.Title>
+                <Modal.Title>Détails d'accès backend</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form>
                   <h5>Accès Back-End</h5>
-                 {/* Affichage global des rôles */}
+                 {/* Affichage global des accès backend */}
+                 <Form.Check
+                    type="checkbox"
+                    label="Personnel"
+                    checked={personnel}
+                    disabled
+                  />
                   <Form.Check
                     type="checkbox"
                     label="Super Admin"
@@ -89,10 +95,10 @@ function DetailsAccessBackend({id}) {
                     checked={editeurCatalogue}
                     disabled
                   />
-                  <hr/>
+                
                   <Form.Check
                     type="checkbox"
-                    label="Access backend Activé"
+                    label="Activer"
                     checked={activer}
                     disabled
                   />

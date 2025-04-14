@@ -36,7 +36,8 @@ function SideNav() {
               </a>
             </li>
             <li><a className="has-arrow " aria-expanded="false">
-                <i className="fas fa-clone" />
+                {/* <i className="fas fa-clone" /> */}
+                <i className="fas fa-th-large" /> 
                 <span className="nav-text">Types</span>
               </a>
               <ul aria-expanded="false">
@@ -44,7 +45,8 @@ function SideNav() {
               </ul>
             </li>
             <li><a className="has-arrow " aria-expanded="false">
-                <i className="fa fa-bars" />
+                {/* <i className="fa fa-bars" /> */}
+                <i className="fas fa-cogs" /> 
                 <span className="nav-text">Paramètres</span>
               </a>
               <ul aria-expanded="false">
@@ -56,7 +58,8 @@ function SideNav() {
               </ul>
             </li>
             <li><a className="has-arrow " aria-expanded="false">
-                <i className="fas fa-heart" />
+                {/* <i className="fas fa-heart" /> */}
+                <i className="fas fa-layer-group" />
                 <span className="nav-text">Sous Paramètre</span>
               </a>
               <ul aria-expanded="false">
@@ -95,11 +98,12 @@ function SideNav() {
                     <li><a href="page-error-503.html">Error 503</a></li>
                   </ul>
                 </li> */}
-                <li><a href={"/utilisateurs"}>Utilisateur</a></li>
+                <li><a href={"/utilisateurs"}>Utilisateurs</a></li>
               </ul>
             </li>
              <li><a className="has-arrow " aria-expanded="false">
-                <i className="fas fa-user" />
+                {/* <i className="fas fa-user" /> */}
+                <i className="fas fa-unlock-alt" />
                 <span className="nav-text">Accès backend</span>
               </a>
               <ul aria-expanded="false">
@@ -107,7 +111,8 @@ function SideNav() {
               </ul>
             </li>
             <li><a className="has-arrow " aria-expanded="false">
-                <i className="fas fa-user" />
+                {/* <i className="fas fa-user" /> */}
+                <i className="fas fa-user-lock" /> 
                 <span className="nav-text">Accès entreprise</span>
               </a>
               <ul aria-expanded="false">
@@ -115,15 +120,17 @@ function SideNav() {
               </ul>
             </li>
             <li><a className="has-arrow " aria-expanded="false">
-                <i className="fas fa-clone" />
-                <span className="nav-text">Roles</span>
+                {/* <i className="fas fa-clone" /> */}
+                <i className="fas fa-id-badge" /> 
+                <span className="nav-text">Rôles</span>
               </a>
               <ul aria-expanded="false">
-                <li><a href={"/roles"}>Géstion des roles</a></li>
+                <li><a href={"/roles"}>Géstion des rôles</a></li>
               </ul>
             </li>
             <li><a className="has-arrow " aria-expanded="false">
-                <i className="fas fa-table" />
+                {/* <i className="fas fa-table" /> */}
+                <i className="fas fa-toolbox" />
                 <span className="nav-text">Fonctionnalités</span>
               </a>
               <ul aria-expanded="false">
@@ -131,7 +138,8 @@ function SideNav() {
               </ul>
             </li>
             <li><a className="has-arrow " aria-expanded="false">
-                <i className="fas fa-file-alt" />
+                {/* <i className="fas fa-file-alt" /> */}
+                <i className="fas fa-building" />     
                 <span className="nav-text">Entreprises</span>
               </a>
               <ul aria-expanded="false">

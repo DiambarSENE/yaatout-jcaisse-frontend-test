@@ -162,7 +162,9 @@ function ListFonctionnalite(){
                               <div className="col-12">
                                 <div className="card">
                                   <div className="card-header">
-                                    <h4 className="card-title">Liste des fonctionnalités</h4>
+                                    <ol className="breadcrumb">
+                                        <li className="breadcrumb-item active"><a href="#">Géstion des fonctionnalités</a></li>
+                                    </ol>
                                   </div>
                                   <div className="card-body">
                                 <div >

@@ -66,9 +66,7 @@ function Connexion(){
 
     return(
         <>
-                    {/* {componentToShow === "welcome" && <Footer /> }
-                    {componentToShow === "login" && <Connexion />}
-                    {componentToShow === "messages" && <Home />} */}
+    
            {
           
                 <div className="authincation h-100">
@@ -81,7 +79,7 @@ function Connexion(){
                                 <div className="col-xl-12">
                                 <div className="auth-form">
                                     <div className="text-center mb-3">
-                                    <a href="index.html"><img src="images/logo-full.png" alt /></a>
+                                    <a href="#"><img src="/images/jcaisse.png" alt /></a>
                                     </div>
                                     <h4 className="text-center mb-4">Connectez-vous à votre compte</h4>
 
@@ -97,12 +95,12 @@ function Connexion(){
                                         <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" defaultValue="Password" />
                                     </div>
                                     <div className="row d-flex justify-content-between mt-4 mb-2">
-                                        <div className="mb-3">
+                                        {/* <div className="mb-3">
                                         <div className="form-check custom-checkbox ms-1">
                                             <input type="checkbox" className="form-check-input" id="basic_checkbox_1" />
                                             <label className="form-check-label" htmlFor="basic_checkbox_1">Souvenez-vous de ma préférence</label>
                                         </div>
-                                        </div>
+                                        </div> */}
                                         <div className="mb-3">
                                         <a href="page-forgot-password.html">Mot de passe oublié ?</a>
                                         </div>
