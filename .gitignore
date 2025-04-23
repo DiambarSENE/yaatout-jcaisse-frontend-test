@@ -41,7 +41,11 @@ yarn-error.log*
 
 # OS files
 .DS_Store
+<<<<<<< HEAD
 Thumbs.db
+=======
+Thumbs.dba
+>>>>>>> sauvegarde_avant_rebase
 
 # IDE / editor folders
 .vscode/

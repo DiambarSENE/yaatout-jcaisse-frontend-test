@@ -6,7 +6,6 @@ import { ValidationEmail, ValidationName, ValidationPrenom, ValidationRole, Vali
 
 
 function Inscription(){
-    //const token = getAuthToken();
     const { userRoles, setUserRoles } = useContext(AppContextRole);
     
 
@@ -15,7 +14,6 @@ function Inscription(){
     const [telephone, setTelephone] = useState("");
     const [matricule , setMatricule] = useState("");
     const [email, setEmail] = useState("");
-    //const [password, setPassword] = useState("");
     const [activer , setActiver] = useState(false);
     const [createBy, setCreateBy] = useState("");
     const [role, setRole] = useState("");

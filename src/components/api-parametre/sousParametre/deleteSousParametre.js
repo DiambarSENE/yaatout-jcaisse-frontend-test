@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal';
 import { AppContextSousParametre } from '../../../useContext/context';
 import { deleteSousParametre, getSousParametreById } from '../../../servicesApi/microservice-parametre';
+import { Link } from 'react-router-dom';
 
 function DeleteSousParametre({id}) {
-      //const navigate = useNavigate();
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
@@ -28,6 +28,7 @@ function DeleteSousParametre({id}) {
                  setNom(fonctionnalite.nom);
                  setDescription(fonctionnalite.description);
                  setUserCreate(fonctionnalite.userCreate);
+                 setActiver(fonctionnalite.activer);
             });
       };
 
@@ -47,12 +48,9 @@ function DeleteSousParametre({id}) {
       };
       return(
             <>
-            {/* <Header />
-            <SideNav/> */}
-             <button onClick={handleShow} className="btn btn-outline-danger">
-                <FontAwesomeIcon icon={faTrash}>
-                </FontAwesomeIcon>
-             </button>
+       
+            <Link onClick={handleShow} className="dropdown-item text-danger">Supprimer</Link>
+            
 
              <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -76,14 +74,14 @@ function DeleteSousParametre({id}) {
                                     onChange={(e) => setDescription(e.target.value) }
                                     className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                         </div>
-                          {/* <div className="form-check">
+                          <div className="form-check">
                             <input className="form-check-input" type="checkbox"
-                                activated={activer}
+                                checked={activer}
                                 onChange={(e) => setActiver(e.target.checked) } disabled/>
                             <label className="form-check-label" htmlFor="flexCheckChecked">
                               Activer
                             </label>
-                          </div> */}
+                          </div>
                             <div className="modal-footer">
                               <button type="button" className="btn btn-danger light" onClick={handleClose}>Fermer</button>
                               <button className="btn btn-primary" onClick={ handleDeleteSousParametre } >- Supprimer</button>

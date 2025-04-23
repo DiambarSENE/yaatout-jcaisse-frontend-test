@@ -55,11 +55,11 @@ function AddRole(){
 
   return(
       <>
-        <Link onClick={handleShow} className="btn btn-primary btn-rounded fs-18" >+Ajouter un role</Link>
+        <Link onClick={handleShow} className="btn btn-primary btn-rounded fs-18" >+Ajouter un rôle</Link>
 
       <Modal show={show} onHide={handleClose} size="lg">
       <Modal.Header closeButton>
-          <Modal.Title>Ajouter un role</Modal.Title>
+          <Modal.Title>Ajouter un rôle</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={ handlerAddRole }>

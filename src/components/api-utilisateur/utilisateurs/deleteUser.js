@@ -7,12 +7,10 @@ import { AppContextUtilisateur, useUsers } from '../../../useContext/contextStat
 import { deleteUserById, getUserById } from '../../../servicesApi/microservice-utilisateur';
 
 function DeleteUser({userId}) {
-      //const navigate = useNavigate();
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
 
-      //const { stateUtilisateur, setStateUtilisateur } = useContext(AppContextUtilisateur);
       const { users, setUsers } = useUsers(); // ✅ Récupérer la liste des utilisateurs
       
 
@@ -66,10 +64,7 @@ function DeleteUser({userId}) {
       };
       return(
             <>
-             {/* <button onClick={handleShow} className="btn btn-outline-danger">
-                <FontAwesomeIcon icon={faTrash}>
-                </FontAwesomeIcon>
-             </button> */}
+          
              <Link onClick={handleShow} className="dropdown-item text-danger">Supprimer</Link>
 
              <Modal show={show} onHide={handleClose}>

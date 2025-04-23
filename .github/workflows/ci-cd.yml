@@ -2,9 +2,9 @@ name: ci/cd pipeline
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, dev ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -35,18 +35,18 @@ jobs:
         run:  npm run build
 
       - name: Login to docker hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: diambarsene/jcaisse-frontend-app-react:latest
+          tags: diambarsene/jcaisse-frontend-version-deux:v2
 
   merge-dev-to-main:
     #needs: build
@@ -82,7 +82,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: mkdir -p /docker-compose-files
+          script: mkdir -p /jcaisse-version-deux
 
       - name: Transférer docker-compose sur le VPS
         uses: appleboy/scp-action@master
@@ -91,8 +91,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: "./docker-compose-frontend.yml"
-          target: "/docker-compose-files"     
+          source: "./docker-compose-jcaisse-frontend.yml"
+          target: "/jcaisse-version-deux"     
 
       - name: Déployer l'application sur le VPS
         uses: appleboy/ssh-action@master
@@ -102,9 +102,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            docker pull diambarsene/jcaisse-frontend-app-react:latest
-            cd /docker-compose-files
-            docker-compose -f docker-compose-frontend.yml up -d
+            docker pull diambarsene/jcaisse-frontend-version-deux:v2
+            cd /jcaisse-version-deux
+            docker-compose -f docker-compose-jcaisse-frontend.yml up -d
 
     
 

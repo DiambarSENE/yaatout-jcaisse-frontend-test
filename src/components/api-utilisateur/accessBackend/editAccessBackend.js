@@ -37,7 +37,8 @@ function EditAccessBackend({id}) {
      const [updateBy, setUpdateBy] =  useState(idInLocalStorage);
      const [accompagnateur, setAccompagnateur] =  useState(false);
      const [editeurCatalogue, setEditeurCatalogue] =  useState(false);
-     const [utilisateur, setUtilisateur] = useState({id:""});
+     const [utilisateurDto, setUtilisateurDto] = useState({id:""});
+    const [personnel, setPersonnel] =  useState(false);
       // États pour les erreurs de validation
      const [erreurUtilisateur, setErreurUtilisateur] = useState("");
 
@@ -54,23 +55,24 @@ function EditAccessBackend({id}) {
                   setSuperAdmin(accessBackend.superAdmin);
                   setAdmin(accessBackend.admin);
                   setAccompagnateur(accessBackend.accompagnateur);
+                  setPersonnel(accessBackend.personnel);
                   setCreateBy(accessBackend);
                   setEditeurCatalogue(accessBackend.editeurCatalogue);
-                  setUtilisateur(accessBackend.utilisateur || {})
+                  setUtilisateurDto(accessBackend.utilisateurDto || {})
             });
       };
 
       const handleUpdateAccessBackend = (e) => {
             e.preventDefault();
             //const userCreate = stateIdUserFromToken;
-            const validationMessage  = ValidationUtilisateur(utilisateur);
+            const validationMessage  = ValidationUtilisateur(utilisateurDto);
             setErreurUtilisateur(validationMessage);
     
             if(validationMessage ){
               return; // Stop si erreur de validation
             }
 
-            let accessBackend = { id, superAdmin, admin, accompagnateur,editeurCatalogue,utilisateur, updateBy, activer };
+            let accessBackend = { id, superAdmin, admin, accompagnateur,editeurCatalogue, personnel, utilisateurDto, updateBy, activer };
               console.log("accessBackend => " + JSON.stringify(accessBackend));
               updateAccessBackEnd(accessBackend).then( res => {
                 handleClose();
@@ -136,10 +138,18 @@ function EditAccessBackend({id}) {
                               Éditeur Catalogue
                             </label>
                           </div>
+                          <div className="form-check">
+                            <input className="form-check-input" type="checkbox"
+                              checked={personnel}
+                              onChange={(e) => setPersonnel(e.target.checked) } />
+                            <label className="form-check-label">
+                              Personnel
+                            </label>
+                          </div>
                            <div className="mb-3 col-md-12">
                             <label className="form-label">Utilisateur<span style={{color: "red"}}>*</span>:</label>
-                            <select name="utilisateur" value={utilisateur.id} 
-                                onChange={(e) => setUtilisateur({ id : e.target.value })}
+                            <select name="utilisateurDto" value={utilisateurDto.id} 
+                                onChange={(e) => setUtilisateurDto({ id : e.target.value })}
                                 className="form-control default-select wide" id="inputState">
                             <option selected value="">Choose...</option>
                             {   

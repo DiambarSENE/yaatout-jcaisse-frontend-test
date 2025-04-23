@@ -19,7 +19,7 @@ function DeleteFonctionnalite({id}) {
       const [createBy, setCreateBy] = useState("");
       const [activer, setActiver] = useState(false);
       const [rolesDto, setRolesDto] =  useState([]);
-            
+      const [erreur, setErreur ] =  useState(""); 
            
       const handleRoleChange = (roleId) => {
       setRolesDto((prev) => {
@@ -40,7 +40,7 @@ function DeleteFonctionnalite({id}) {
               setNom(fonctionnalite.nom);
               setCreateBy(fonctionnalite.createBy);
               setActiver(fonctionnalite.activer);
-              setRolesDto(fonctionnalite.rolesDto)
+              setRolesDto(fonctionnalite.rolesDto || [])
         });
       };
 
@@ -56,6 +56,7 @@ function DeleteFonctionnalite({id}) {
               } )
               .catch(err => {
                 console.log(err)
+                setErreur(err.response.data.message);
             });
       };
       return(
@@ -122,6 +123,7 @@ function DeleteFonctionnalite({id}) {
                           <br/>
                         
                             <div className="modal-footer">
+                              {erreur && <span style={{ color: 'red'}}>{erreur}</span>}
                               <button type="button" className="btn btn-danger light" onClick={handleClose}>Fermer</button>
                               <button className="btn btn-primary" onClick={ handleDeleteFonctionnalite } >- Supprimer</button>
                             </div>

@@ -8,7 +8,6 @@ import { getUserById } from '../../../servicesApi/microservice-utilisateur';
 import { Button, Form } from 'react-bootstrap';
 
 function DetailUser({userId}) {
-      //const navigate = useNavigate();
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);

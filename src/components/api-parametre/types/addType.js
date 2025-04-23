@@ -20,19 +20,16 @@ function AddType() {
 
     const [ nom, setNom ] =  useState("");
     const [description, setDescription] = useState("");
-    //const idUser = stateIdUserFromToken; 
-    // const [createBy, setCreateBy] = useState(idUser);
     const [createBy, setCreateBy] = useState();
     const [activer, setActiver] = useState(false);
 
     // États pour les erreurs de validation
-     const [nomError, setNomError] = useState("");
-
+    const [nomError, setNomError] = useState("");
+    const [erreur, setErreur] = useState("");
     
     const saveType = (e) => {
         e.preventDefault();
         const nomError = ValidationName(nom);
-        const userCreate = stateIdUserFromToken;
         let type = {  nom,description,createBy,activer };
         if(!nomError){
               createType(type).then( res => {
@@ -48,6 +45,10 @@ function AddType() {
                   // Fermer le modal après la création du type
                   //const modal = document.getElementById('basicModal');
                   //modal .hide();
+              })
+              .catch(error => {
+                console.log(error);
+                setErreur(error.response.data.message);
               });
         }else{
             setNomError(nomError)
@@ -75,8 +76,6 @@ function AddType() {
 
     return(
         <>
-        {/* <Header />
-        <SideNav /> */}
              <button className="btn btn-primary btn-rounded fs-18" onClick={handleShow}>
                   + Ajouter un Type
              </button>
@@ -90,14 +89,15 @@ function AddType() {
                         <div className="mb-3">
                           <label htmlFor="exampleFormControlInput1" className="form-label">
                             Nom <span style={{color:"red"}}>*</span> :
-                            {nomError && <span style={{color:"red"}}>{ nomError }</span> }
                           </label>
+                          {nomError && <span style={{color:"red"}}>{ nomError }</span> }
                           <input name="nom"
                                 type="text"
                                 value={nom}
                                 onChange={(e) => setNom(e.target.value) }
                                 className="form-control" id="exampleFormControlInput1" placeholder="Entrez le nom du type"></input>
                         </div>
+                        {erreur && <span style={{color:"red"}}>{ erreur }</span> }
                         <div className="mb-3">
                           <label htmlFor="exampleFormControlTextarea1" className="form-label">Description : </label>
                           <textarea name="description"
@@ -109,7 +109,7 @@ function AddType() {
 
                         <div className="form-check">
                           <input className="form-check-input" type="checkbox"
-                            activer={activer}
+                            checked={activer}
                             onChange={(e) => setActiver(e.target.checked) } />
                           <label className="form-check-label" htmlFor="flexCheckChecked">
                             Activer

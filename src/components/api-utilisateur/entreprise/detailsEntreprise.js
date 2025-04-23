@@ -9,6 +9,7 @@ function DetailsEntreprise({entrepriseId}) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [toggleIndex, setToggleIndex] = useState(null);
 
     const [entrepriseData, setEntrepriseData] = useState({
       nom: "",
@@ -49,7 +50,7 @@ function DetailsEntreprise({entrepriseId}) {
       return(
             <>
 
-             <Link onClick={handleShow} className="dropdown-item" >détails</Link>
+             <Link onClick={handleShow} className="dropdown-item text-info" >détails</Link>
 
              <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -82,6 +83,30 @@ function DetailsEntreprise({entrepriseId}) {
                     {entrepriseData.accessEntrepriseDto && entrepriseData.accessEntrepriseDto.length > 0 ? (
                         <ul style={{ paddingLeft: '20px' }}>
                           {entrepriseData.accessEntrepriseDto.map((accesEntreprise, index) => (
+                            <div
+                            key={index}
+                            style={{
+                              marginBottom: '1rem',
+                              padding: '0.5rem',
+                              borderLeft: '3px solid #007bff',
+                              backgroundColor: '#f9f9f9',
+                            }}
+                          >
+                            <div
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                cursor: 'pointer',
+                                alignItems: 'center',
+                              }}
+                              onClick={() => setToggleIndex(toggleIndex === index ? null : index)}
+                            >
+                              <strong>{accesEntreprise.id || 'Sans identifiant'}</strong>
+                              <span>{toggleIndex === index ? '▲' : '▼'}</span>
+                            </div>
+      
+                            {toggleIndex === index && (
+                              <div style={{ marginTop: '0.5rem' }}>
                             <li key={ index } style={{ marginBottom: '10px' }} >
                                 <p><strong>ID :</strong> { accesEntreprise.id || 'N/A'}</p>
                                 <p><strong>Propriétaire :</strong> { accesEntreprise.proprietaire ? 'Oui' : 'Non'}</p>
@@ -92,6 +117,9 @@ function DetailsEntreprise({entrepriseId}) {
                                 <p><strong>Vendeur :</strong> { accesEntreprise.vendeur ? 'Oui' : 'Non'}</p>
                                 <p><strong>ECommerce :</strong> { accesEntreprise.eCommerce ? 'Oui' : 'Non'}</p>
                             </li>
+                            </div>
+                            )}
+                            </div>
                           ))}
                         </ul>
                       ):

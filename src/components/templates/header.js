@@ -1,15 +1,17 @@
 import React, { useContext } from 'react'
 import {  deleteToken,deleteEmailInLocalStorage } from '../../servicesApi/microservice-utilisateur';
-import { Link, useNavigate } from 'react-router-dom';
-import { AppContextToken, AppContextUserByEmail, useAuth } from '../../useContext/contextStateUser';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {  AppContextUserByEmail, useAuth } from '../../useContext/contextStateUser';
    
   function Header() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const {id} = useParams();
+    const idF = parseInt(id);
     //permet d'utiliser l'email de l'utilisateur connecter 
     const {stateUserByEmail, setStateUserByEmail} = useContext(AppContextUserByEmail);
      //j'utilise le token pour la redirection entre le page d'accueil et la page de connexion
-    // const {stateToken , setStateToken} = useContext(AppContextToken);
-     const {stateToken, setStateToken} = useAuth(); // ✅ Récupère correctement le token depuis le contexte
+     const { setStateToken} = useAuth(); // ✅ Récupère correctement le token depuis le contexte
     
     const deconnexion = () => {
         setStateUserByEmail(null);
@@ -560,11 +562,22 @@ import { AppContextToken, AppContextUserByEmail, useAuth } from '../../useContex
               <div className="collapse navbar-collapse justify-content-between">
                 <div className="header-left">
                   <div className="dashboard_bar">
-                    Dashboard
+                     { location.pathname === '/home' ? "Accueil" : ""}
+                     { location.pathname === '/types' ? "Types" : "" }
+                     { location.pathname === '/listParametreByType/'+idF ? "Paramètres" : "" }
+                     { location.pathname === '/adminInscription' ? "QdminInscription" : "" }
+                     { location.pathname === '/profile' ? "Profile" : "" }
+                     { location.pathname === '/utilisateurs' ? "Utilisateurs" : "" }
+                     { location.pathname === '/roles' ? "Rôles" : "" }
+                     { location.pathname === '/sousParametres' ? "SousParamètres" : "" }
+                     { location.pathname === '/entreprises' ? "Entreprises" : "" }
+                     { location.pathname === '/accesEntreprises' ? "AccèsEntreprises" : "" }
+                     { location.pathname === '/accesBackends' ? "AccèsBackends" : "" }
+                     { location.pathname === '/fonctionnalites' ? "Fonctionnalités" : "" }
                   </div>
                 </div>
                 <ul className="navbar-nav header-right">
-                  <li className="nav-item d-flex align-items-center">
+                  {/* <li className="nav-item d-flex align-items-center">
                     <div className="input-group search-area">
                       <input type="text" className="form-control" placeholder="Search here..." />
                       <span className="input-group-text"><a href="javascript:void(0)"><i className="flaticon-381-search-2" /></a></span>
@@ -731,20 +744,20 @@ import { AppContextToken, AppContextUserByEmail, useAuth } from '../../useContex
                         </ul>
                       </div>
                     </div>
-                  </li>
+                  </li> */}
                   <li className="nav-item dropdown  header-profile">
                     <a className="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                      <img src="images/user.jpg" width={56} alt="image" />
+                      <img src="/images/jcaisse.png" width={56} alt="image" />
                     </a>
                     <div className="dropdown-menu dropdown-menu-end">
-                      <Link to={"/listUser"} className="dropdown-item ai-icon">
+                      <a href="/utilisateurs" className="dropdown-item ai-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width={18} height={18}  viewBox="0 0 640 512" ><path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z"/></svg>  
                         <span className="ms-2">Personnel </span>
-                      </Link>
-                        <Link to={"/vitrine"} className="dropdown-item ai-icon">
+                      </a>
+                        <a href="/#" className="dropdown-item ai-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" className="text-primary" width={18} height={18} viewBox="0 0 512 512"><path d="M345 39.1L472.8 168.4c52.4 53 52.4 138.2 0 191.2L360.8 472.9c-9.3 9.4-24.5 9.5-33.9 .2s-9.5-24.5-.2-33.9L438.6 325.9c33.9-34.3 33.9-89.4 0-123.7L310.9 72.9c-9.3-9.4-9.2-24.6 .2-33.9s24.6-9.2 33.9 .2zM0 229.5V80C0 53.5 21.5 32 48 32H197.5c17 0 33.3 6.7 45.3 18.7l168 168c25 25 25 65.5 0 90.5L277.3 442.7c-25 25-65.5 25-90.5 0l-168-168C6.7 262.7 0 246.5 0 229.5zM144 144a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg> 
                         <span className="ms-2">Vitrine </span>
-                      </Link>
+                      </a>
                       <a href="/profile" className="dropdown-item ai-icon">
                         <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" className="text-primary" width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx={12} cy={7} r={4} /></svg>
                         <span className="ms-2">Profile ( { stateUserByEmail  } )</span>
@@ -752,7 +765,7 @@ import { AppContextToken, AppContextUserByEmail, useAuth } from '../../useContex
                       
                       <a href="/" className="dropdown-item ai-icon">
                         <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" className="text-danger" width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1={21} y1={12} x2={9} y2={12} /></svg>
-                        <span className="ms-2" onClick={ deconnexion }>Deconnexion </span>
+                        <span className="ms-2" onClick={ deconnexion }>Déconnexion </span>
                       </a>
                     </div>
                   </li>

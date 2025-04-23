@@ -1,40 +1,44 @@
-import React, {  useState } from "react";
+import React, {  useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
-import {   useUsers } from "../../../useContext/contextStateUser";
+import {   AppContextAccessBackEnd, useUsers } from "../../../useContext/contextStateUser";
 import { ValidationEmail, ValidationName, ValidationPrenom,  ValidationTelephone } from "../../../validateur/validation";
 import { createUsers, getIdInLocalStorage } from "../../../servicesApi/microservice-utilisateur";
 
 function AddUser(){
     const idInLocalStorage = getIdInLocalStorage();
-    //const { stateUtilisateur, setStateUtilisateur} = useContext(AppContextUtilisateur);
     const {  setUsers } = useUsers(); // ✅ Récupérer la liste des utilisateurs
+     // ✅ Récupérer la liste des acces backend
+    const { stateAccessBackEnd, setStateAccessBackEnd } = useContext(AppContextAccessBackEnd);
     
-    //const {userRoles, setUserRoles} = useContext(AppContextRole);
-    //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
-      const [show, setShow] = useState(false);
-      const handleClose = () => setShow(false);
-      const handleShow = () => setShow(true);
+    const [nom, setNom] = useState("");
+    const [prenom, setPrenom] = useState("");
+    const [telephone, setTelephone] = useState("");
+    const [email, setEmail] = useState("");
+    const [matricule, setMatricule] = useState("");
+    const [ accessBackEndDto, setAccessBackEndDto] = useState({ });
+    const [activer , setActiver] = useState(false);
+    const [adresse, setAdresse] = useState("");
+    //recupere la valeur de l'identifiant
+    const userId = idInLocalStorage;
+    const [createBy, setCreateBy] = useState(userId);
 
-      const [nom, setNom] = useState("");
-      const [prenom, setPrenom] = useState("");
-      const [telephone, setTelephone] = useState("");
-      const [email, setEmail] = useState("");
-      const [matricule, setMatricule] = useState("");
-      const [role, setRole] = useState("");
-      const [activer , setActiver] = useState(false);
-      const [adresse, setAdresse] = useState("");
-      //recupere la valeur de l'identifiant
-      const userId = idInLocalStorage;
-      const [createBy, setCreateBy] = useState(userId);
+    const [errorPrenom, setErrorPrenom] = useState("");
+    const [errorNom, setErrorNom] = useState("");
+    const [errorEmail, setErrorEmail] = useState("");
+    const [errorTelephone, setErrorTelephone] = useState("");
+    //permet d'ouvrir et fermer
+    const [toggleIndex, setToggleIndex] = useState(null);
 
-      const [errorPrenom, setErrorPrenom] = useState("");
-      const [errorNom, setErrorNom] = useState("");
-      const [errorEmail, setErrorEmail] = useState("");
-      const [errorTelephone, setErrorTelephone] = useState("");
+    const handleAccesChange = (accesId) => {
+        setAccessBackEndDto({ id: accesId });
+      };
 
-      const handlerAddUser = (e) => {
+    const handlerAddUser = (e) => {
         e.preventDefault();
         // Validation des champs
         const errorPrenom = ValidationPrenom(prenom);
@@ -42,7 +46,7 @@ function AddUser(){
         const errorEmail = ValidationEmail(email);
         const errorTelephone = ValidationTelephone(telephone);
         
-         // S'il y a AU MOINS une erreur, on bloque la soumission
+            // S'il y a AU MOINS une erreur, on bloque la soumission
         if(errorPrenom || errorNom || errorEmail || errorTelephone){
             setErrorPrenom(errorPrenom);
             setErrorNom(errorNom);
@@ -52,8 +56,8 @@ function AddUser(){
         }
 
         // Création de l'objet utilisateur
-        let newUser = {nom, prenom,telephone, email, matricule, activer,adresse, createBy}
-
+        let newUser = {nom, prenom,telephone, email, matricule, activer,adresse,accessBackEndDto, createBy}
+        console.log("newUser => " + JSON.stringify(newUser));
         // Envoi de l'utilisateur si tout est valide
         createUsers(newUser)
             .then((resp) => {
@@ -78,13 +82,13 @@ function AddUser(){
                 }
 
             });
-      };
+        };
 
     return(
         <>
           <Link onClick={handleShow} className="btn btn-primary btn-rounded fs-18" >+Ajouter un utilisateur</Link>
 
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
             <Modal.Title>Ajouter un Utilisateur</Modal.Title>
         </Modal.Header>
@@ -137,14 +141,6 @@ function AddUser(){
                             onChange={(e) => setAdresse(e.target.value) } className="form-control" />
                     </div>
                     </div>
-                      {/* <div className="col-lg-6">
-                    <div className="mb-3">
-                        <input name="createBy"
-                            type="hidden" min="0"
-                        value={createBy}
-                        onChange={(e) => setCreateBy(e.target.value) } className="form-control" />
-                    </div>
-*/}
                   <div className="mb-3">
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox"
@@ -154,9 +150,75 @@ function AddUser(){
                         Activer
                     </label>
                     </div>  
-                    {/* </div>  */}
-                </div>
+                  </div>
+                  <div className="col-lg-12">
+                    <div className="mb-3">
+                        <label className="form-label">Accès backend</label>
+                        {stateAccessBackEnd && stateAccessBackEnd.length > 0 ? (
+                            <ul style={{ paddingLeft: '20px' }}>
+                                {stateAccessBackEnd.map((acces, index) => (
+                                    <div
+                                        key={acces.id} // Mieux d'utiliser un identifiant unique plutôt que l'index
+                                        style={{
+                                            marginBottom: '1rem',
+                                            padding: '0.5rem',
+                                            borderLeft: '3px solid #007bff',
+                                            backgroundColor: '#f9f9f9',
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                cursor: 'pointer',
+                                                alignItems: 'center',
+                                            }}
+                                            onClick={() => setToggleIndex(toggleIndex === index ? null : index)}
+                                        >
+                                            <strong>{acces.id || 'Sans identifiant'}</strong>
+                                            <span>{toggleIndex === index ? '▲' : '▼'}</span>
+                                        </div>
                 
+                                        {toggleIndex === index && (
+                                            <div style={{ marginTop: '0.5rem' }}>
+                                                <table className="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sélectionnez</th>
+                                                            <th>Admin</th>
+                                                            <th>Super admin</th>
+                                                            <th>Accompagnateur</th>
+                                                            <th>Editeur catalogue</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr key={acces.id}>
+                                                            <td>
+                                                                <input
+                                                                    type="radio"
+                                                                    name="accessBackEndDto"
+                                                                    value={acces.id}
+                                                                    checked={accessBackEndDto.id === acces.id} // Correction: comparer avec accessBackEndDto.id
+                                                                    onChange={() => handleAccesChange(acces.id)}
+                                                                />
+                                                            </td>
+                                                            <td>{acces.admin ? "Oui" : "Non"}</td>
+                                                            <td>{acces.superAdmin ? "Oui" : "Non"}</td>
+                                                            <td>{acces.accompagnateur ? "Oui" : "Non"}</td>
+                                                            <td>{acces.editeurCatalogue ? "Oui" : "Non"}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>  
+                                        )}
+                                    </div>  
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>Aucun accès assigné</p>
+                        )}
+                    </div>
+                </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-danger light" onClick={handleClose}>Fermer</button>
                     <button className="btn btn-primary">+ Enregistrer</button>

@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { AppContextParam } from '../../../useContext/context';
-import { AppContextAccessBackEnd, AppContextIdUserByToken, AppContextUtilisateur, useUsers } from '../../../useContext/contextStateUser';
+import { AppContextAccessBackEnd, AppContextIdUserByToken,  useUsers } from '../../../useContext/contextStateUser';
 import { createAccessBackEnd, getAllAccessBackEnds, getIdInLocalStorage } from '../../../servicesApi/microservice-utilisateur';
-import { ValidationName, ValidationUtilisateur } from '../../../validateur/validation';
+import {  ValidationUtilisateur } from '../../../validateur/validation';
 
 function AddAccessBackend() {
   const idInLocalStorage = getIdInLocalStorage();
@@ -13,12 +13,11 @@ function AddAccessBackend() {
     const handleShow = () => setShow(true);
     
     // { stateUtilisateur, setStateUtilisateur} = useContext(AppContextUtilisateur);
-    const { users, setUsers } = useUsers(); // ✅ Récupérer la liste des utilisateurs
+    const { users } = useUsers(); // ✅ Récupérer la liste des utilisateurs
 
-    const {stateParametre, setStateParametre } = useContext(AppContextParam)
     const { stateAccessBackEnd, setStateAccessBackEnd } = useContext(AppContextAccessBackEnd);
      //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
-    const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);  
+    const {stateIdUserFromToken} = useContext(AppContextIdUserByToken);  
     
     //const idUser = stateIdUserFromToken; 
     //const [userCreate, setUserCreate] = useState(idUser);
@@ -28,23 +27,24 @@ function AddAccessBackend() {
     const [createBy, setCreateBy] =  useState(idInLocalStorage);
     const [accompagnateur, setAccompagnateur] =  useState(false);
     const [editeurCatalogue, setEditeurCatalogue] =  useState(false);
-    const [utilisateur, setUtilisateur] = useState({ id:"" });
+    const [utilisateurDto, setUtilisateurDto] = useState({ id:"" });
     // États pour les erreurs de validation
     const [erreurUtilisateur, setErreurUtilisateur] = useState("");
-
+    const [personnel, setPersonnel] =  useState(false);
     
     const saveAccessBackend = (e) => {
         e.preventDefault();
         const createBy = stateIdUserFromToken;
-        const validationMessage  = ValidationUtilisateur(utilisateur);
+        const validationMessage  = ValidationUtilisateur(utilisateurDto);
         setErreurUtilisateur(validationMessage);
 
         if(validationMessage ){
           return; // Stop si erreur de validation
         }
-
-        let accessBackend = {  superAdmin, admin, accompagnateur,editeurCatalogue,utilisateur, createBy, activer };
+          
+        let accessBackend = {  superAdmin, admin, accompagnateur,editeurCatalogue,personnel, utilisateurDto, createBy, activer };
         
+        console.log("accessbacken => " + JSON.stringify(accessBackend));
         createAccessBackEnd(accessBackend).then( res => {
             //alert(res.data);
             setSuperAdmin(false);
@@ -53,7 +53,7 @@ function AddAccessBackend() {
             setCreateBy(false);
             setEditeurCatalogue(false);
             setActiver(false) ;
-            //utilisateur("");
+            setPersonnel(false);
 
             handleClose();
 
@@ -65,7 +65,6 @@ function AddAccessBackend() {
             //modal .hide();
         });
   
-       //console.log("type => " + JSON.stringify(type));
     };
 
     const getAccessBackend = () => {
@@ -105,7 +104,7 @@ function AddAccessBackend() {
                               checked={superAdmin}
                               onChange={(e) => setSuperAdmin(e.target.checked) } />
                             <label className="form-check-label" htmlFor="flexCheckChecked">
-                            superAdmin
+                            Super admin
                             </label>
                           </div>
 
@@ -114,7 +113,7 @@ function AddAccessBackend() {
                               checked={admin}
                               onChange={(e) => setAdmin(e.target.checked) } />
                             <label className="form-check-label" htmlFor="flexCheckChecked">
-                            admin
+                            Admin
                             </label>
                           </div>
                           <div className="form-check">
@@ -122,7 +121,7 @@ function AddAccessBackend() {
                               checked={accompagnateur}
                               onChange={(e) => setAccompagnateur(e.target.checked) } />
                             <label className="form-check-label" htmlFor="flexCheckChecked">
-                            accompagnateur
+                            Accompagnateur
                             </label>
                           </div>
                           <div className="form-check">
@@ -130,13 +129,21 @@ function AddAccessBackend() {
                               checked={editeurCatalogue}
                               onChange={(e) => setEditeurCatalogue(e.target.checked) } />
                             <label className="form-check-label" htmlFor="flexCheckChecked">
-                            editeurCatalogue
+                            Éditeur Catalogue
+                            </label>
+                          </div>
+                          <div className="form-check">
+                            <input className="form-check-input" type="checkbox"
+                              checked={personnel}
+                              onChange={(e) => setPersonnel(e.target.checked) } />
+                            <label className="form-check-label">
+                              Personnel
                             </label>
                           </div>
                           <div className="mb-3 col-md-12">
                                   <label className="form-label">Utilisateur<span style={{color: "red"}}>*</span>:</label>
-                                  <select name="utilisateur" value={utilisateur.id} 
-                                      onChange={(e) => setUtilisateur({id : e.target.value})}
+                                  <select name="utilisateurDto" value={utilisateurDto.id} 
+                                      onChange={(e) => setUtilisateurDto({id : e.target.value})}
                                       className="form-control default-select wide" id="inputState">
                                   <option selected value="">Choose...</option>
                                   {   

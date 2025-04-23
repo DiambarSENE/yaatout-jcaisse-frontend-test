@@ -47,7 +47,8 @@ export const deleteIdInLocalStorage = () => {
 // Créer une instance Axios avec le jeton dans l'en-tête par défaut
 export const usersApi = axios.create({
     //baseURL: "http://31.220.20.148:8083",
-    baseURL: "http://localhost:8083",
+    baseURL: "http://31.220.20.148:9999/YAATOUT-USERS-API",
+    // baseURL: "http://localhost:8083",
     // headers: {
     //     'Content-Type': 'application/json',
     //   },
@@ -55,16 +56,16 @@ export const usersApi = axios.create({
 });
 
 // Ajouter un intercepteur pour mettre à jour le jeton à chaque requête
-// usersApi.interceptors.request.use(config => {
-//     // Récupérer le jeton à chaque requête
-//     const token = getAuthToken();
+usersApi.interceptors.request.use(config => {
+    // Récupérer le jeton à chaque requête
+    const token = getAuthToken();
   
-//     // Mettre à jour l'en-tête avec le nouveau jeton
-//     if(token !== "null"){
-//         config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   });
+    // Mettre à jour l'en-tête avec le nouveau jeton
+    if(token !== "null"){
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
 
 
 //==================       Utilisateur           ==================================================== 

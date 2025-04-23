@@ -72,10 +72,10 @@ function ListAccessBackend(){
             }
        },
         {
-          name: "Super Admin",
+          name: "Personnel",
           cell: (row) => (
             <div>
-                <FontAwesomeIcon icon={row.superAdmin ? faCheckCircle : faCircle}
+                <FontAwesomeIcon icon={row.personnel ? faCheckCircle : faCircle}
                 />
             </div>
           ),
@@ -202,7 +202,7 @@ function ListAccessBackend(){
                         </ul>
                       </div>
                       <div className="mb-4">
-                          { < AddAccessBackend /> }
+                           < AddAccessBackend /> 
                       </div>
                 
                     </div>	
@@ -215,7 +215,10 @@ function ListAccessBackend(){
                               <div className="col-12">
                                 <div className="card">
                                   <div className="card-header">
-                                    <h4 className="card-title">Liste des accessBackend</h4>
+                                    {/* <h4 className="card-title">Liste des accessBackend</h4> */}
+                                    <ol className="breadcrumb">
+                                        <li className="breadcrumb-item active"><a href="#">Géstion des accès backends</a></li>
+                                    </ol>
                                   </div>
                                   <div className="card-body">
                                 <div >

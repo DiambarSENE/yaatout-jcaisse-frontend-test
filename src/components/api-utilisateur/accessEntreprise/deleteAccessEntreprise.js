@@ -1,27 +1,18 @@
 import React, { useState, useContext, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import Header from '../../templates/header';
-import Footer from '../../templates/Footer';
-import SideNav from '../../templates/SideNav';
-import { AppContextAccessEntreprise, AppContextEntreprise, AppContextUtilisateur, useUsers } from '../../../useContext/contextStateUser';
+import { AppContextAccessEntreprise, AppContextEntreprise,  useUsers } from '../../../useContext/contextStateUser';
 import { deleteAccessEntrepriseById, getAccessEntrepriseById } from '../../../servicesApi/microservice-utilisateur';
 import { Link } from 'react-router-dom';
 
 function DeleteAccessEntreprise({id}) {
-    //const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const { stateAccessEntreprise, setStateAccessEntreprise } = useContext(AppContextAccessEntreprise);
-    //const { stateAccessEntreprise, setStateAccessEntreprise} = useContext(AppContextParam);
 
-   //const { stateUtilisateur, setStateUtilisateur} = useContext(AppContextUtilisateur);
-   const { users, setUsers } = useUsers(); // ✅ Récupérer la liste des utilisateurs
+   const { users } = useUsers(); // ✅ Récupérer la liste des utilisateurs
    
-  const { stateEntreprise, setStateEntreprise} = useContext(AppContextEntreprise);
+  const { stateEntreprise} = useContext(AppContextEntreprise);
 
 
     const [admin, setAdmin ] = useState(false);
@@ -36,6 +27,7 @@ function DeleteAccessEntreprise({id}) {
     const [createBy, setCreateBy] =  useState("");
     const [utilisateur, setUtilisateur] =  useState({id:""});
     const [entreprise, setEntreprise] =  useState({id:""});
+    const [erreur, setErreur] =  useState("");
 
   useEffect( () => {
    if (id) {
@@ -46,7 +38,7 @@ function DeleteAccessEntreprise({id}) {
   const handleGetAccessEntrepriseById = (id) => {
     getAccessEntrepriseById(id).then( resp => {
         let accessEntreprise = resp.data;
-        setAdmin(accessEntreprise.activer);
+        setAdmin(accessEntreprise.admin);
 
         setProprietaire(accessEntreprise.proprietaire);
         setGerant(accessEntreprise.gerant);
@@ -56,9 +48,8 @@ function DeleteAccessEntreprise({id}) {
         setECommerce(accessEntreprise.eCommerce);
         setActiver(accessEntreprise.activer);
         setCreateBy(accessEntreprise.createBy);
-        // setUtilisateur(accessEntreprise.utilisateurId);
-        // setEntreprise(accessEntreprise.entrepriseId);
-        //setUserCreate(accessEntreprise.userCreate);
+        setUtilisateur(accessEntreprise.utilisateurDto || {});
+        setEntreprise(accessEntreprise.entrepriseDto || {});
         setActiver(accessEntreprise.activer);
 
     });
@@ -69,7 +60,7 @@ function DeleteAccessEntreprise({id}) {
     const handleDeleteAccessEntreprise = (e) => {
       e.preventDefault();
       if (!id) {
-         alert("Access entreprise introuvable.");
+         alert("Accès entreprise introuvable.");
          return;
      }
 
@@ -80,20 +71,16 @@ function DeleteAccessEntreprise({id}) {
             alert(resp.data);
           })
           .catch(err => {
-            console.log(err)
+            console.log(err);
+            setErreur(err.response.data.message)
         });
   };
-     //const cancel = () => {
-       //  navigate("/listtype");
-    //};
+   
     return(
         <>
        {/* <Header />
        <SideNav/> */}
-          {/* <button  onClick={handleShow} className="btn btn-outline-danger">
-              <FontAwesomeIcon icon={faTrash}>
-              </FontAwesomeIcon>
-          </button> */}
+         
           <Link onClick={handleShow} className="dropdown-item text-danger">
             Supprimer
          </Link>
@@ -108,46 +95,46 @@ function DeleteAccessEntreprise({id}) {
                            <input className="form-check-input" type="checkbox" checked={proprietaire}
                               onChange={(e) => setProprietaire(e.target.checked) } />
                            <label className="form-check-label" htmlFor="flexCheckChecked">
-                           proprietaire
+                           Proprietaire
                            </label>
                         </div>
                         <div className="form-check">
                            <input className="form-check-input" type="checkbox" checked={gerant}
                               onChange={(e) => setGerant(e.target.checked) } />
                            <label className="form-check-label" htmlFor="flexCheckChecked">
-                           gerant
+                           Gerant
                            </label>
                         </div>
                         <div className="form-check">
                            <input className="form-check-input" type="checkbox" checked={gestionnaire}
                               onChange={(e) => setGestionnaire(e.target.checked) } />
                            <label className="form-check-label" htmlFor="flexCheckChecked">
-                           gestionnaire
+                           Géstionnaire
                            </label>
                         </div>
                         <div className="form-check">
                            <input className="form-check-input" type="checkbox" checked={caissier}
                               onChange={(e) => setCaissier(e.target.checked) } />
                            <label className="form-check-label" htmlFor="flexCheckChecked">
-                           caissier
+                           Caissier
                            </label>
                         </div>
                         <div className="form-check">
                            <input className="form-check-input" type="checkbox" checked={vendeur}
                               onChange={(e) => setVendeur(e.target.checked) } />
                            <label className="form-check-label" htmlFor="flexCheckChecked">
-                              vendeur
+                              Vendeur
                            </label>
                         </div>
                         <div className="form-check">
                            <input className="form-check-input" type="checkbox" checked={eCommerce}
                               onChange={(e) => setECommerce(e.target.checked) } />
                            <label className="form-check-label" htmlFor="flexCheckChecked">
-                           eCommerce
+                           E-commerce
                            </label>
                         </div>
                          <div className="mb-3 col-md-12">
-                           <label className="form-label">utilisateur<span style={{color: "red"}}>*</span>:</label>
+                           <label className="form-label">Utilisateur<span style={{color: "red"}}>*</span>:</label>
                            <select name="utilisateur" value={utilisateur.id} 
                                  onChange={(e) => setUtilisateur({id:e.target.value})}
                                  className="form-control default-select wide" id="inputState">
@@ -161,7 +148,7 @@ function DeleteAccessEntreprise({id}) {
                               {/* {errorRole && <span style={{color : "red"}}>{errorRole}</span>} */}
                         </div>
                         <div className="mb-3 col-md-12">
-                           <label className="form-label">entreprise<span style={{color: "red"}}>*</span>:</label>
+                           <label className="form-label">Entreprise<span style={{color: "red"}}>*</span>:</label>
                            <select name="entreprise" value={entreprise.id} 
                                  onChange={(e) => setEntreprise({id:e.target.value})}
                                  className="form-control default-select wide" id="inputState">
@@ -185,7 +172,7 @@ function DeleteAccessEntreprise({id}) {
                          
                          
                       <div className="modal-footer">
-                        
+                         {erreur && <span style={{ color: 'red' }}>{erreur}</span>}
                           <button type="button" className="btn btn-danger light" onClick={handleClose}>Fermer</button>
                           <button type="button" className="btn btn-primary" onClick={ handleDeleteAccessEntreprise}>- Supprimer</button>
                           

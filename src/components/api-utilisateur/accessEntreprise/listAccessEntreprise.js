@@ -263,8 +263,7 @@ function ListAccessEntreprise(){
                                   <div className="card">
                                     <div className="card-header">
                                       <ol className="breadcrumb">
-                                          <li className="breadcrumb-item active"><a href="javascript:void(0)">Parametrages</a></li>
-                                          <li className="breadcrumb-item"><a href="javascript:void(0)"> {stateNameType} </a></li>
+                                          <li className="breadcrumb-item active"><a href="#">Géstion des accès entreprises</a></li>
                                       </ol>
                                     </div>
                                     <div className="card-body">
