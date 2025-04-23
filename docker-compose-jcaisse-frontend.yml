@@ -80,7 +80,7 @@ services:
       - db_users_api
 
   db_users_api:
-    container_name: db_user_api
+    container_name: db_users_api
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: sene
