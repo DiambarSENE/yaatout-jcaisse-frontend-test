@@ -44,14 +44,14 @@ services:
       timeout: 10s
       retries: 8
     depends_on:
-      db_parametre_api:
+      db_paramettre_api:
         condition: service_healthy
       config-service:
         condition: service_healthy 
 
-  db_parametre_api:
-    container_name: db_parametre_api
-    image: mysql:latest
+  db_paramettre_api:
+    container_name: db_paramettre_api
+    image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: sene
       MYSQL_DATABASE: Jcaisse_paramettre
@@ -77,11 +77,11 @@ services:
       - DISCOVERY_SERVICE_URL=http://registry-service:8761/eureka
       - CONFIG_SERVICE_URL=http://config-service:8888
     depends_on:
-      - db_users_api
+      - db_utilisateurs_api
 
-  db_users_api:
-    container_name: db_users_api
-    image: mysql:latest
+  db_utilisateurs_api:
+    container_name: db_utilisateurs_api
+    image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: sene
       MYSQL_DATABASE: Jcaisse_utilisateurs
