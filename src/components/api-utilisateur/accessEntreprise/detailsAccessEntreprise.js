@@ -11,9 +11,7 @@ function DetailsAccessEntreprise({id}) {
    const handleShow = () => setShow(true);
    const [toggleIndex, setToggleIndex] = useState(null);
          
-
    const [admin, setAdmin ] = useState(false);
-
    const [proprietaire, setProprietaire] = useState(false);
    const [gerant, setGerant] = useState(false);
    const [gestionnaire, setGestionnaire] = useState(false);

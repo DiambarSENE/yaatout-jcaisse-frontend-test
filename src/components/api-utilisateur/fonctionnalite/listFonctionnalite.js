@@ -17,7 +17,6 @@ import DetailsFonctionnalite from './detailsFonctionnalite';
 function ListFonctionnalite(){
   const navigate = useNavigate();
   //j'utilise le token pour la redirection entre le page d'accueil et la page de connexion
- // const {stateToken } = useContext(AppContextToken);
   const {stateToken} = useAuth(); // ✅ Récupère correctement le token depuis le contexte
 
   const { stateFonctionnalite, setStateFonctionnalite } = useContext(AppContextFonctionnalite);

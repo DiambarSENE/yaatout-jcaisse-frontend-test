@@ -45,14 +45,9 @@ function AddAccessEntreprise() {
    const [erreurUtilisateur, setErreurUtilisateur] = useState("");
    const [erreurEntreprise, setErreurEntreprise] = useState("");
 
-     //const userId = stateIdUserFromToken;
-     //const [createBy, setCreateBy] = useState(userId);
- 
-
 
      const handleSaveAccessEntreprise = (e) => {
         e.preventDefault();
-        //const createBy = stateIdUserFromToken;
     
         const validationUtilisateur  = ValidationUtilisateur(utilisateurDto);
         const validationEntreprise = ValidationEntreprise(entrepriseDto);
@@ -87,29 +82,7 @@ function AddAccessEntreprise() {
         
      };
 
-   //   const getAccessEntreprise = () => {
-   //       getAccessEntreprises()
-   //          .then(resp => {
-   //             setStateAccessEntreprise(resp.data)
-   //       })
-   //       .catch(err=>{
-   //          console.log(err)
-   //       })
-   //   };
-   // const getAccessEntreprise = () => {
-   //    getAccessEntrepriseByName(nom).then(response => {
-   //       getAccessEntrepriseById(response.data.type.typeId).then(resp => {
 
-   //           const currentStateAccessEntrepriseByType = stateAccessEntreprise;
-   //           const updatedAccessEntrepriseByType = [resp.data[resp.data.length - 1], ...currentStateAccessEntrepriseByType];
-   //          //setStateAccessEntreprise(resp.data);
-   //            setStateAccessEntreprise(updatedAccessEntrepriseByType)
-   //       }).catch(error => {
-   //          console.log(error)
-   //       })
-   //    });
-        
-   //   };
     const getAccessEntreprise = () => {
           getAllAccessEntreprises()
              .then(resp =>{

@@ -9,7 +9,7 @@ function DetailsFonctionnalite({id}) {
       const [show, setShow] = useState(false);
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
-       const [toggleIndex, setToggleIndex] = useState(null);
+      const [toggleIndex, setToggleIndex] = useState(null);
 
       const [fonctionnaliteData, setFonctionnaliteData] = useState({
         nom : "",
