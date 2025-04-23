@@ -17,7 +17,7 @@ services:
     container_name: yaatout-config-service
     restart: always
     ports:
-      - '8888:8888'
+      - '8889:8888'
     environment:
       - DISCOVERY_SERVICE_URL=http://registry-service:8761/eureka
     healthcheck:
