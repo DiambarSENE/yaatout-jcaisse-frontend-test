@@ -111,7 +111,7 @@ services:
         condition: service_healthy
 
   frontend:
-    container_name: yaatout-frontend
+    container_name: yaatout-jcaisse-frontend
     image: diambarsene/jcaisse-frontend-version-deux:v2 
     restart: always
     ports:
