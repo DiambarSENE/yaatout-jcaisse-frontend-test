@@ -44,13 +44,13 @@ services:
       timeout: 10s
       retries: 8
     depends_on:
-      db_parametres_api:
+      db_parametre_api:
         condition: service_healthy
       config-service:
         condition: service_healthy 
 
-  db_parametres_api:
-    container_name: db_parametres_api
+  db_parametre_api:
+    container_name: db_parametre_api
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: sene
@@ -77,9 +77,9 @@ services:
       - DISCOVERY_SERVICE_URL=http://registry-service:8761/eureka
       - CONFIG_SERVICE_URL=http://config-service:8888
     depends_on:
-      - db_users_api
+      - db_user_api
 
-  db_users_api:
+  db_user_api:
     container_name: db_user_api
     image: mysql:latest
     environment:
