@@ -104,6 +104,8 @@ jobs:
           script: |
             docker pull diambarsene/jcaisse-frontend-version-deux:v2
             cd /jcaisse-version-deux
+            docker stop jcaisse-frontend-version-deux || true
+            docker rm jcaisse-frontend-version-deux || true
             docker-compose -f docker-compose-jcaisse-frontend.yml up -d
 
     
