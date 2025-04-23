@@ -77,9 +77,9 @@ services:
       - DISCOVERY_SERVICE_URL=http://registry-service:8761/eureka
       - CONFIG_SERVICE_URL=http://config-service:8888
     depends_on:
-      - db_user_api
+      - db_users_api
 
-  db_user_api:
+  db_users_api:
     container_name: db_user_api
     image: mysql:latest
     environment:
