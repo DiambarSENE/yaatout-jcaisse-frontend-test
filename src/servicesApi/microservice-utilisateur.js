@@ -48,7 +48,7 @@ export const deleteIdInLocalStorage = () => {
 export const usersApi = axios.create({
     //baseURL: "http://31.220.20.148:8083",
     baseURL: "http://31.220.20.148:9999/YAATOUT-USERS-API",
-    // baseURL: "http://localhost:8083",
+    //baseURL: "http://localhost:8083",
     // headers: {
     //     'Content-Type': 'application/json',
     //   },
@@ -113,6 +113,7 @@ export const getUserByToken = (token) => {
     return usersApi.get(`/utilisateur/${token}`);
 };
 export const getConnexion = (login) => {
+    console.log("email =======>>>> " + login.email+ "pass =======>>>> " + login.password)
     return usersApi.post("/utilisateur/connecter", login);
 };
 

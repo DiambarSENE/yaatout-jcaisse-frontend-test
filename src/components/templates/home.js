@@ -1,15 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback,  useEffect } from 'react';
+import {  useNavigate } from "react-router-dom";
 import Header from './header';
 import SideNav from './SideNav';
 import Footer from './Footer';
-import Connexion from '../api-utilisateur/utilisateurs/connexion';
 import { AppContextAccessBackEnd, AppContextAccessEntreprise, AppContextEntreprise, AppContextFonctionnalite, AppContextToken, useAuth, useUsers } from '../../useContext/contextStateUser';
 import { AppContext, AppContextParam, AppContextParamByType, AppContextSousParametre } from '../../useContext/context';
 
 function Home() {
+  const navigate = useNavigate();
   //j'utilise le token pour la redirection entre le page d'accueil et la page de connexion
  
-  const { roles} = useAuth(); // ✅ Récupère correctement le token depuis le contexte et ✅  la liste des roles
+  const { roles, stateToken} = useAuth(); // ✅ Récupère correctement le token depuis le contexte et ✅  la liste des roles
   const { stateParametreByType } = useContext(AppContextParamByType)
   const { stateT } = useContext(AppContext);
   const { stateSousParametre } = useContext(AppContextSousParametre);
@@ -19,6 +20,19 @@ function Home() {
   const { stateEntreprise } = useContext(AppContextEntreprise);
   const { stateFonctionnalite } = useContext(AppContextFonctionnalite);
   const { users } = useUsers();
+
+  // <gerer la redirection vers la page de connexion si le token n'existe pas>
+    const handlerRedirection = useCallback(() => {
+        if(!stateToken || stateToken === null){
+            navigate('/');
+        }
+    }, [stateToken, navigate]);
+   
+    useEffect(() => {
+        handlerRedirection();
+    }, [handlerRedirection]);
+  // </gerer la redirection vers la page de connexion si le token n'existe pas>
+  
 
   const dataStats = [
     { label: "Accès Backend", value: stateAccessBackEnd.length, icon: "fas fa-unlock-alt", color: "primary" },

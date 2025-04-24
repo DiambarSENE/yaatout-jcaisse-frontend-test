@@ -11,6 +11,8 @@ services:
       interval: 1m
       timeout: 10s
       retries: 4
+    networks:
+    - yaatout-network 
 
   config-service:
     image: diambarsene/yaatout-config-service:v1 
@@ -28,6 +30,8 @@ services:
     depends_on:
       registry-service:
         condition: service_healthy  
+    networks:
+    - yaatout-network    
 
   app-parametres-api:
     container_name: yaatout-parametres-api
@@ -48,6 +52,8 @@ services:
         condition: service_healthy
       config-service:
         condition: service_healthy 
+    networks:
+    - yaatout-network    
 
   db_paramettre_api:
     container_name: db_paramettre_api
@@ -66,6 +72,8 @@ services:
       - "3307:3306"
     volumes:
       - parametres-db-data:/var/lib/mysql
+    networks:
+    - yaatout-network  
   
   app-users-api:
     container_name: yaatout-users-api 
@@ -78,6 +86,8 @@ services:
       - CONFIG_SERVICE_URL=http://config-service:8888
     depends_on:
       - db_utilisateurs_api
+    networks:
+    - yaatout-network  
 
   db_utilisateurs_api:
     container_name: db_utilisateurs_api
@@ -91,6 +101,8 @@ services:
       - "3308:3306"
     volumes:
       - users-db-data:/var/lib/mysql
+    networks:
+    - yaatout-network  
 
   yaatout-proxy-api:
     image: diambarsene/yaatout-proxy-service:v1     
@@ -109,6 +121,8 @@ services:
     depends_on:
       config-service:
         condition: service_healthy
+    networks:
+    - yaatout-network    
 
   frontend:
     container_name: yaatout-jcaisse-frontend
@@ -118,11 +132,17 @@ services:
       - '8081:80'
     depends_on:
       yaatout-proxy-api:
-        condition: service_healthy               
+        condition: service_healthy    
+    networks:
+    - yaatout-network
 
 volumes:
   parametres-db-data:
   users-db-data:
+
+networks:
+  yaatout-network:
+    driver: bridge
 
 
 
