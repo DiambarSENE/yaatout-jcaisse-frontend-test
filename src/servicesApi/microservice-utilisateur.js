@@ -62,7 +62,7 @@ usersApi.interceptors.request.use(
       // Liste des routes publiques (qui ne nécessitent pas de token)
       const publicPaths = [
         "/utilisateur/connecter",
-        "/utilisateur"
+        // "/utilisateur"
       ];
   
       const isPublic = publicPaths.some(path => config.url.includes(path));
@@ -101,7 +101,7 @@ export const updatePassword = (updatePass) => {
     return usersApi.patch("/utilisateur",updatePass);
 }
 
-export const getUsers = () => {
+export const getAllUsers = () => {
     return usersApi.get(`/utilisateurs`);
 };
 

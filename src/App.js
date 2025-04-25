@@ -8,7 +8,7 @@ import Home from './components/templates/home';
 // import Inscription from './components/utilisateurs/inscription.js';
 import Connexion from './components/api-utilisateur/utilisateurs/connexion';
 import { AppContextAccessBackEnd, AppContextAccessEntreprise, AppContextEntreprise, AppContextFonctionnalite, AppContextIdUserByToken, AppContextProvider, AppContextRole, AppContextRoleByToken, AppContextToken, AppContextUserByEmail, AppContextUtilisateur, AuthProvider, useAppGetIdUserFromToken, useAppGetRoleFromToken, useAppGetToken, useAppStateAccessBackEnd, useAppStateAccessEntreprise, useAppStateEntreprise, useAppStateFonctionnalite, useAppStateRoles, useAppStateUserByEmail, useAppStateUtilisateur, UserProvider } from './useContext/contextStateUser';
-import { deleteToken, getAllAccessBackEnds, getAllAccessEntreprises, getAllEntreprises, getAllFonctionnalites, getAllRoles, getAuthToken, getUsers } from './servicesApi/microservice-utilisateur';
+import { deleteToken, getAllAccessBackEnds, getAllAccessEntreprises, getAllEntreprises, getAllFonctionnalites, getAllRoles, getAuthToken, getAllUsers } from './servicesApi/microservice-utilisateur';
 import Profile from './components/api-utilisateur/utilisateurs/profile';
 import ListUser from './components/api-utilisateur/utilisateurs/listUser';
 import ListRole from './components/api-utilisateur/roles/listRole';

@@ -1,5 +1,5 @@
 import { createContext , useContext, useEffect, useState } from 'react';
-import { getAllRoles, getAuthToken, getUsers } from '../servicesApi/microservice-utilisateur';
+import { getAllRoles, getAuthToken, getAllUsers } from '../servicesApi/microservice-utilisateur';
 // Création du contexte
 //export const AppContextUtilisateur = createContext();
 // 1️⃣ Création du contexte pour les utilisateurs
@@ -114,7 +114,7 @@ export const UserProvider = ({children}) => {
     // Fonction pour récupérer la liste des utilisateurs
     const fetchUsers = async () => {
         try{
-            const response = await getUsers();
+            const response = await getAllUsers();
             setUsers(response.data);
         }catch(error){
             console.error("Erreur lors de la récupération des utilisateurs:", error);
