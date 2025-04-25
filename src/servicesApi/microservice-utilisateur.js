@@ -47,25 +47,40 @@ export const deleteIdInLocalStorage = () => {
 // Créer une instance Axios avec le jeton dans l'en-tête par défaut
 export const usersApi = axios.create({
     //baseURL: "http://31.220.20.148:8083",
-    baseURL: "http://31.220.20.148:9999/YAATOUT-USERS-API",
-    //baseURL: "http://localhost:8083",
+    //baseURL: "http://31.220.20.148:9999/YAATOUT-USERS-API",
+    baseURL: "http://localhost:8083/YAATOUT-USERS-API",
     // headers: {
     //     'Content-Type': 'application/json',
     //   },
   
 });
 
-// Ajouter un intercepteur pour mettre à jour le jeton à chaque requête
-usersApi.interceptors.request.use(config => {
-    // Récupérer le jeton à chaque requête
-    const token = getAuthToken();
+
+//Utilisation d'un intercepteur de requête pour ajouter conditionnellement le header Authorization
+usersApi.interceptors.request.use(
+    config => {
+      // Liste des routes publiques (qui ne nécessitent pas de token)
+      const publicPaths = [
+        "/utilisateur/connecter",
+        "/utilisateur"
+      ];
   
-    // Mettre à jour l'en-tête avec le nouveau jeton
-    if(token !== "null"){
-        config.headers.Authorization = `Bearer ${token}`;
+      const isPublic = publicPaths.some(path => config.url.includes(path));
+  
+      if (!isPublic) {
+        const authToken = getAuthToken();
+        if (authToken) {
+          config.headers['Authorization'] = `Bearer ${authToken}`;
+        }
+      }
+  
+      return config;
+    },
+    error => {
+      return Promise.reject(error);
     }
-    return config;
-  });
+  );
+  
 
 
 //==================       Utilisateur           ==================================================== 
