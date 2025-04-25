@@ -47,8 +47,8 @@ export const deleteIdInLocalStorage = () => {
 // Créer une instance Axios avec le jeton dans l'en-tête par défaut
 export const usersApi = axios.create({
     //baseURL: "http://31.220.20.148:8083",
-    //baseURL: "http://31.220.20.148:9999/YAATOUT-USERS-API",
-    baseURL: "http://localhost:8083/YAATOUT-USERS-API",
+    baseURL: "http://31.220.20.148:9999/YAATOUT-USERS-API",
+    //baseURL: "http://localhost:8083/YAATOUT-USERS-API",
     // headers: {
     //     'Content-Type': 'application/json',
     //   },
