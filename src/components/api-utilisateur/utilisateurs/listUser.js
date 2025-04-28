@@ -39,7 +39,7 @@ function ListUser(){
 // </gerer la redirection vers la page de connexion si le token n'existe pas>
 
   useEffect(() => {
-    console.log("Liste des utilisateurs:", users); // Affiche la liste dans la console
+    //console.log("Liste des utilisateurs:", users); // Affiche la liste dans la console
   }, [users]); // Ré-exécute le useEffect si la liste change
 
   // Réinitialiser la page quand le terme de recherche change
@@ -55,13 +55,24 @@ function ListUser(){
     ASSISTANT: "assistant",
     EDITEUR: "editeurCatalogue",
     SUPERADMIN: "superAdmin",
+    SANSPROFIL: "sansprofil"
   };
 
  const renderTabContent = (acces) => {
-    const profilKey = accesMap[acces]; // on récupère la clé associée au rôle
-    
     // Filtrer les utilisateurs selon le profil et la recherche
     const filteredUsers = users.filter(u => {
+      if (acces === "SANSPROFIL") {
+        // Cas spécial pour les utilisateurs sans accessBackEndDto
+        const hasNoAccess = !u.accessBackEndDto || Object.keys(u.accessBackEndDto).length === 0;
+        const matchesSearch = searchTerm === '' ||
+          u.prenom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          u.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          u.matricule.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          u.email.toLowerCase().includes(searchTerm.toLowerCase());
+        return hasNoAccess && matchesSearch;
+      } else {
+        // Cas normal avec accessBackEndDto existant
+        const profilKey = accesMap[acces]; // on récupère la clé associée au rôle
         const matchesProfile = u.accessBackEndDto?.[profilKey] === true;
         const matchesSearch = searchTerm === '' || 
             u.prenom.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -70,6 +81,7 @@ function ListUser(){
             u.email.toLowerCase().includes(searchTerm.toLowerCase());
         
         return matchesProfile && matchesSearch;
+      }
     });
 
     // Calcul des utilisateurs à afficher pour la pagination

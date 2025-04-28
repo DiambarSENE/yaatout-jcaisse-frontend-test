@@ -48,15 +48,15 @@ services:
       timeout: 10s
       retries: 8
     depends_on:
-      db_paramettre_api:
+      db_parametres_api:
         condition: service_healthy
       config-service:
         condition: service_healthy 
     networks:
     - yaatout-network    
 
-  db_paramettre_api:
-    container_name: db_paramettre_api
+  db_parametres_api:
+    container_name: db_parametres_api
     image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: sene

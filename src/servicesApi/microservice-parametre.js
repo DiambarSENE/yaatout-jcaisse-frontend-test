@@ -7,7 +7,7 @@ export const getAuthToken = () => {
 
 export const parametresApi = axios.create({
     //baseURL: "http://localhost:9999/YAATOUT-PARAMETTRES-API",
-    // baseURL: "http://localhost:8084",
+     //baseURL: "http://localhost:8084",
      baseURL: "http://31.220.20.148:9999/YAATOUT-PARAMETTRES-API",
     // headers: {
     //     'Authorization': `Bearer ${getAuthToken()}`,

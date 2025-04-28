@@ -40,7 +40,7 @@ function EditParametre({id}) {
         });
       }
 
-      const handleUpdateParametre = (e) => {
+    const handleUpdateParametre = (e) => {
         e.preventDefault();
         const userCreate = stateIdUserFromToken;
         const nameError = ValidationName(nom);
@@ -48,39 +48,30 @@ function EditParametre({id}) {
         let parametre = { id, nom, symbole, type, updateBy, activer };
         if(!nameError && !typesError){
           updateParametre(parametre).then( resp =>{
-            //navigate("/listParametre")
             handleClose();
-            alert("parametre modifier avec success");
             setNom("");
             setSymbole("");
             setType("");
-            //setUserCreate("");
             setActiver(false);
 
-            // getParametres()
-            //   .then( resp => {
-            //     setStateParametre(resp.data);
-            // })
-            
-           //j'ai utilise ici de methode juste pour la mise a jour du tableux c'est a dire afficher les donnees modifiees sans reflechir la page
-            getParametreByIdType(resp.data.type.id)
-            .then( resp => {
-                setStateParametreByType(resp.data);
+             // Mise à jour du paramètre dans la liste
+              const updatedList = stateParametreByType.filter(p => p.id !== id); // Supprimer l'ancien
+              const updatedParametre = { ...parametre }; // Le nouveau paramètre modifié
+              setStateParametreByType([updatedParametre, ...updatedList]); // Ajouter en haut
             })
               .catch((err) => {
                 console.log(err)
               });
-          });
         }else{
           setNameError(nameError)
           setTypesError(type)
         }
       };
 
-      useEffect(() => {
+
+    useEffect(() => {
         handleGetParametre();
     },[]);
-
 
     const handleGetParametre = () => {
           getTypes()

@@ -61,7 +61,7 @@ function AddParametre() {
 
    const getParametre = () => {
       getParametreByName(nom).then(response => {
-         getParametreByIdType(response.data.type.typeId).then(resp => {
+         getParametreByIdType(response.data.type.id).then(resp => {
 
              const currentStateParametreByType = stateParametreByType;
              const updatedParametreByType = [resp.data[resp.data.length - 1], ...currentStateParametreByType];
