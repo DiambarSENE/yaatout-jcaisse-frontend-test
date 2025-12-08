@@ -80,7 +80,7 @@ services:
     image: diambarsene/yaatout-jcaisse-users-api:v01 #nom-image-utilisateur:version
     restart: always 
     ports:
-      - "8083:8083"
+      - "8283:8083"
     # environment:
     #   - DISCOVERY_SERVICE_URL=http://registry-service:8761/eureka
     #   - CONFIG_SERVICE_URL=http://config-service:8888
