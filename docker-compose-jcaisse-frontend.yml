@@ -48,7 +48,7 @@ services:
       timeout: 10s
       retries: 8
     depends_on:
-      db_parametres_api:
+      - db_parametres_api
       #   condition: service_healthy
       # config-service:
       #   condition: service_healthy 
