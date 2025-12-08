@@ -11,16 +11,14 @@ function EditParametre({id}) {
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
       //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
-      const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);
+      const {stateIdUserFromToken} = useContext(AppContextIdUserByToken);
       const { stateParametreByType, setStateParametreByType } = useContext(AppContextParamByType);
       const { stateT, setStateT } = useContext(AppContext);
-
-      const navigate = useNavigate();
 
       const [nom, setNom ] =  useState("");
       const [symbole, setSymbole] = useState("");
       const [type, setType] = useState({id : ""});
-      const [updateBy, setUpdateBy] = useState(); 
+      const [updateBy] = useState(); 
       const [activer, setActiver] = useState(false);
 
       const [nameError, setNameError] = useState("");
@@ -42,7 +40,7 @@ function EditParametre({id}) {
 
     const handleUpdateParametre = (e) => {
         e.preventDefault();
-        const userCreate = stateIdUserFromToken;
+      
         const nameError = ValidationName(nom);
         const typesError = ValidationTypes(type);
         let parametre = { id, nom, symbole, type, updateBy, activer };

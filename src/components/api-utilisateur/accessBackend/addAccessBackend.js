@@ -44,7 +44,7 @@ function AddAccessBackend() {
           
         let accessBackend = {  superAdmin, admin, accompagnateur,editeurCatalogue,personnel, utilisateurDto, createBy, activer };
         
-        console.log("accessbacken => " + JSON.stringify(accessBackend));
+        //console.log("accessbacken => " + JSON.stringify(accessBackend));
         createAccessBackEnd(accessBackend).then( res => {
             //alert(res.data);
             setSuperAdmin(false);

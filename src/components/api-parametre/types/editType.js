@@ -19,9 +19,9 @@ function EditType({id}) {
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
 
-      const { stateT, setStateT } = useContext(AppContext);
+      const { setStateT } = useContext(AppContext);
       //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
-      const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);
+      const {stateIdUserFromToken} = useContext(AppContextIdUserByToken);
 
       const [nom, setNom ] =  useState("");
       const [description, setDescription] = useState("");
@@ -46,7 +46,6 @@ function EditType({id}) {
 
       const handleUpdateType = (e) => {
             e.preventDefault();
-            const userCreate = stateIdUserFromToken;
             const nameError = ValidationName(nom);
             if(!nameError){
                 let type = { id, nom,description,updateBy,activer };

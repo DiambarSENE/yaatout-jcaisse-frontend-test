@@ -3,9 +3,6 @@ import Modal from 'react-bootstrap/Modal';
 import { createType, getTypes } from '../../../servicesApi/microservice-parametre';
 import { ValidationName } from '../../../validateur/validation';
 import { AppContext } from '../../../useContext/context';
-import Header from '../../templates/header';
-import Footer from '../../templates/Footer';
-import SideNav from '../../templates/SideNav';
 import { AppContextIdUserByToken } from '../../../useContext/contextStateUser';
 
 function AddType() {
@@ -15,12 +12,12 @@ function AddType() {
 
     const { stateT, setStateT } = useContext(AppContext);
      //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
-    const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);
+   // const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);
 
 
     const [ nom, setNom ] =  useState("");
     const [description, setDescription] = useState("");
-    const [createBy, setCreateBy] = useState();
+    const [createBy] = useState();
     const [activer, setActiver] = useState(false);
 
     // États pour les erreurs de validation

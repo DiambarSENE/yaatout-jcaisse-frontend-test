@@ -3,10 +3,6 @@ import { deleteType, getTypeById} from '../../../servicesApi/microservice-parame
 import {  faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Header from '../../templates/header';
-import Footer from '../../templates/Footer';
-import SideNav from '../../templates/SideNav';
 import { AppContext } from '../../../useContext/context';
 import { Link } from 'react-router-dom';
 
@@ -19,7 +15,7 @@ function DeleteType({id}) {
 
       const [nom, setNom ] =  useState("");
       const [description, setDescription] = useState("");
-      const [userCreate, setUserCreate] = useState("");
+      //const [ setUserCreate] = useState("");
       const [activer, setActiver] = useState(false);
       const [erreur, setErreur ] =  useState("");
 
@@ -32,7 +28,7 @@ function DeleteType({id}) {
                  let type = resp.data;
                  setNom(type.nom);
                  setDescription(type.description);
-                 setUserCreate(type.userCreate);
+                 //setUserCreate(type.userCreate);
                  setActiver(type.activer);
             });
       };

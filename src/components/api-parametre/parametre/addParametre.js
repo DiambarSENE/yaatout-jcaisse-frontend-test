@@ -15,18 +15,17 @@ function AddParametre() {
       const handleClose = () => setShow(false);
       const handleShow = () => setShow(true);
       //permet de requiperer l'identifiant de l'utilisateur ensuite de l'utiliser dans le methode d'ajoute
-      const {stateIdUserFromToken, setStateIdUserFromToken} = useContext(AppContextIdUserByToken);
+      const {stateIdUserFromToken} = useContext(AppContextIdUserByToken);
       const { stateParametreByType, setStateParametreByType } = useContext(AppContextParamByType);
-     const { stateT, setStateT } = useContext(AppContext);
+     const { stateT } = useContext(AppContext);
 
      const [nomError, setNomError] = useState("");
      const [typesError, setTypesError] = useState("");
 
      const [nom, setNom] = useState("");
      const [symbole, setSymbole] = useState("");
-     const [types, setTypes] = useState("");
+     const [ setTypes] = useState("");
      const [type, setType] = useState({id : ""});
-     const [createBy, setCreateBy] = useState();
      const [activer, setActiver] = useState(false);
      const [erreur, setErreur] = useState("");
 
