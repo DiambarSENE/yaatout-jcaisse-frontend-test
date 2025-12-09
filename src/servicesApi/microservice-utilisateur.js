@@ -48,7 +48,7 @@ export const deleteIdInLocalStorage = () => {
 export const usersApi = axios.create({
     // baseURL: "http://localhost:8083",
     //baseURL: "http://31.220.20.148:8083",
-     baseURL: "http://depinfo-dev.tech:8081",
+     baseURL: "http://depinfo-dev.tech:8283",
     //baseURL: "http://31.220.20.148:9999/YAATOUT-USERS-API",
     //baseURL: "http://localhost:9999/YAATOUT-USERS-API",
     // headers: {

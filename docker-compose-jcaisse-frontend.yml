@@ -53,7 +53,7 @@ services:
       # config-service:
       #   condition: service_healthy 
     networks:
-    - yaatout-network    
+    - yaatout-jcaisse-deux-network   
 
   db_parametres_api:
     container_name: db_parametres_api
@@ -73,36 +73,37 @@ services:
     volumes:
       - parametres-db-data:/var/lib/mysql
     networks:
-    - yaatout-network  
+    - yaatout-jcaisse-deux-network  
   
   app-users-api:
     container_name: yaatout-users-api 
     image: diambarsene/yaatout-jcaisse-users-api:v01 #nom-image-utilisateur:version
     restart: always 
     ports:
-      - "8283:8083"
+      - "8283:8283"
     # environment:
     #   - DISCOVERY_SERVICE_URL=http://registry-service:8761/eureka
     #   - CONFIG_SERVICE_URL=http://config-service:8888
     depends_on:
-      - db_utilisateurs_api
+      - db_utilisateurs_api_deux
     networks:
-    - yaatout-network  
+    - yaatout-jcaisse-deux-network  
 
-  db_utilisateurs_api:
-    container_name: db_utilisateurs_api
+  db_utilisateurs_api_deux:
+    container_name: db_utilisateurs_api_deux
     image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: sene
-      MYSQL_DATABASE: Jcaisse_utilisateurs
+      MYSQL_DATABASE: Jcaisse_utilisateurs_deux
       MYSQL_USER: sene
       MYSQL_PASSWORD: sene
     ports:
       - "3308:3306"
     volumes:
-      - users-db-data:/var/lib/mysql
+      - users-db-data-v2:/var/lib/mysql   # <-- nouveau volume
+      # - users-db-data:/var/lib/mysql
     networks:
-    - yaatout-network  
+    - yaatout-jcaisse-deux-network  
 
   # yaatout-proxy-api:
   #   image: diambarsene/yaatout-proxy-service:v1     
@@ -134,31 +135,17 @@ services:
     #   yaatout-proxy-api:
     #     condition: service_healthy    
     networks:
-    - yaatout-network
+    - yaatout-jcaisse-deux-network
 
 volumes:
   parametres-db-data:
-  users-db-data:
+  users-db-data-v2:
+  # users-db-data:
 
 networks:
-  yaatout-network:
+  yaatout-jcaisse-deux-network:
     driver: bridge
 
 
 
 
-# version: '3.8'
-
-# services:
-#   frontend:
-#     container_name: app-prod-conteneur
-#     image: diambarsene/jcaisse-frontend-app-react:latest # Remplacez par le nom et la version de votre image
-#     restart: always
-#     ports:
-#       - "8081:80" # Utilisez le port que vous souhaitez exposer
-#     environment:
-#       REACT_APP_API_URL_PARAMETRE: http://app-parametres-api:8084 # Remplacez par l'URL de votre API backend
-#       REACT_APP_API_URL_UTILISATEUR: http://app-users-api:8083
-#     depends_on:
-#       - app-parametres-api
-#       - app-users-api
